@@ -31,30 +31,17 @@ def movies_list(request):
 
 def new_movie(request):
     assert isinstance(request, HttpRequest)
+    #MUDAR If para verificação xmlschema
     if 'title' in request.POST and 'year' in request.POST:
         title = request.POST['title']
         year = request.POST['year']
-        if peso and altura:
-            icm = (float(peso) / float(altura) ** 2)
-            categoria = '0'
-            if (icm < 18.5):
-                categoria = 'Abaixo do peso ideal',
-            elif (icm >= 18.5 and icm < 25):
-                categoria = 'Peso normal'
-            elif (icm >= 25 and icm < 30):
-                categoria = 'Excesso de peso'
-            elif (icm >= 30 and icm < 35):
-                categoria = 'Obesidade(grau I)'
-            elif (icm >= 35 and icm < 40):
-                categoria = 'Obesidade(grau II)'
-            else:
-                categoria = 'Obesidade(grau III)'
+        if title and year:
             return render(
                 request,
-                'rcalcIMC.html',
+                'Auxiliar.html',
                 {
-                    'icm': icm,
-                    'categoria': categoria,
+                    'title': title,
+                    'year' : year,
                 }
             )
         else:

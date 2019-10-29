@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ca52bfd-fd8b-4e4d-b1a7-ad44adaeb92b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/data/movies.xsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/movies.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/newMovie.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/movies.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/movies.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/newMovie.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/newMovie.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webproj/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/webproj/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,11 +22,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="27" />
-    <option name="width" value="663" />
-    <option name="height" value="741" />
   </component>
   <component name="ProjectId" id="1SbzUdj37eGJh6TeEaxQTFIVVF4" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -90,6 +83,7 @@
       <workItem from="1571847106413" duration="627000" />
       <workItem from="1571906433210" duration="86000" />
       <workItem from="1572362985814" duration="4679000" />
+      <workItem from="1572368961970" duration="1957000" />
     </task>
     <servers />
   </component>

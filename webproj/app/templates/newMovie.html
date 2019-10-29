@@ -8,31 +8,48 @@
     <p> <label>Title: <input type="text" name="title" /></label> *</p>
     <p>Year: <input type="text" name="year" />*</p>
     <p>Director:
-        First name: <input type="text" name="firstname" />
         <br/>
-        Last name: <input type="text" name="lastname" />
+        First name: <input type="text" name="firstname" /> *
+        <br/>
+        Last name: <input type="text" name="lastname" /> *
     </p>
     <p>Actor 1:
         <br/>
-        First name: <input type="text" name="firstname" />
+        First name: <input type="text" name="firstname" /> *
         <br/>
-        Last name: <input type="text" name="lastname" />
+        Last name: <input type="text" name="lastname" /> *
     </p>
     <p>Actor 2:
         <br/>
-        First name: <input type="text" name="firstname" />
+        First name: <input type="text" name="firstname" /> *
         <br/>
-        Last name: <input type="text" name="lastname" />
+        Last name: <input type="text" name="lastname" /> *
     </p>
     <p>Actor 3:
         <br/>
-        First name: <input type="text" name="firstname" />
+        First name: <input type="text" name="firstname" /> *
         <br/>
-        Last name: <input type="text" name="lastname" />
+        Last name: <input type="text" name="lastname" /> *
     </p>
-    <p>Genres: <input type="text" name="genres" /></p>
-    <p>Year: <input type="text" name="year" /></p>
-    <p>Year: <input type="text" name="year" /></p>
+    <p>
+        Duration: <input type="text" name="duration"/> *
+    </p>
+        <!-- Buscar info ao HTML usando XQuery -->
+    <p>Genres: *</p>
+        <input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br>
+        <input type="checkbox" name="vehicle2" value="Car"> I have a car<br>
+        <input type="checkbox" name="vehicle3" value="Boat" checked> I have a boat<br>
+    <!-- Buscar info ao HTML usando XQuery -->
+    <p>Rating:
+        <select name="rating">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option value="audi">Audi</option>
+    </select>
+    <p>Country: <input type="text" name="country" /></p>
+    <p>Budget: <input type="text" name="budget" /></p>
+    <p>* - required</p>
     <p><input type="submit" value="Submit" /></p>
 </form>
 
