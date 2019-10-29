@@ -18,6 +18,8 @@ from django.urls import path
 from app import views
 
 urlpatterns = [
-    path('', views.index),
+    path('index/', views.index),
+    path('movies', views.movies_list),
+    path('', views.new_movie),
     path('admin/', admin.site.urls),
 ]

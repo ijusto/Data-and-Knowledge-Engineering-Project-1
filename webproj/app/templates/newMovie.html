@@ -1,0 +1,39 @@
+{% block content %}
+
+{% if error %}
+    <p style="...">ERROR: insert the requested information</p>
+{% endif %}
+<form action="." method="post">
+    {% csrf_token %}
+    <p> <label>Title: <input type="text" name="title" /></label> *</p>
+    <p>Year: <input type="text" name="year" />*</p>
+    <p>Director:
+        First name: <input type="text" name="firstname" />
+        <br/>
+        Last name: <input type="text" name="lastname" />
+    </p>
+    <p>Actor 1:
+        <br/>
+        First name: <input type="text" name="firstname" />
+        <br/>
+        Last name: <input type="text" name="lastname" />
+    </p>
+    <p>Actor 2:
+        <br/>
+        First name: <input type="text" name="firstname" />
+        <br/>
+        Last name: <input type="text" name="lastname" />
+    </p>
+    <p>Actor 3:
+        <br/>
+        First name: <input type="text" name="firstname" />
+        <br/>
+        Last name: <input type="text" name="lastname" />
+    </p>
+    <p>Genres: <input type="text" name="genres" /></p>
+    <p>Year: <input type="text" name="year" /></p>
+    <p>Year: <input type="text" name="year" /></p>
+    <p><input type="submit" value="Submit" /></p>
+</form>
+
+{% endblock %}
