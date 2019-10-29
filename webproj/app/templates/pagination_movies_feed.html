@@ -1,0 +1,12 @@
+{% extends "movie_feed.html" %}
+{% block content %}
+    from django.core.paginator import Paginator
+    p = Paginator(post_list, 4)
+    num_p = p.num_pages
+
+    p1 = p.page(1) # <page 1 of post_list / 4)
+    pnumber = p1.number # 1
+    p1_posts = p1.object_list
+    p1.has_previous()
+{{ content | safe }}
+{% endblock %}

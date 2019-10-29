@@ -16,7 +16,7 @@ def movies_list(request):
     xslt_name = 'movies.xsl'
 
     xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
-    xsl_file = os.path.join(BASE_DIR, 'app/data/' + xslt_name)
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
 
     tree = ET.parse(xml_file)
     xslt = ET.parse(xsl_file)
@@ -60,3 +60,21 @@ def new_movie(request):
                 'error': False,
             }
         )
+
+def movies_feed(request):
+    xml_name = 'movies.xml'
+    xslt_name = 'movies.xsl'
+
+    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    tree = ET.parse(xml_file)
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+     }
+    return render(request, 'movie_feed.html', tparams)
