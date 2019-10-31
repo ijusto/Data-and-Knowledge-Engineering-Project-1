@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1ca52bfd-fd8b-4e4d-b1a7-ad44adaeb92b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data/movies.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/movies.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../xml/csvtoxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/../xml/csvtoxml.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/queries/queries.xq" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/queries/queries.xq" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
