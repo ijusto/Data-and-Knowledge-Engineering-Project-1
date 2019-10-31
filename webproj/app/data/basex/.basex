@@ -1,0 +1,39 @@
+# General Options
+DEBUG = false
+DBPATH = /home/inesjusto/Documents/4ano/EDC/Data-and-Knowledge-Engineering-Project-1/webproj/app/data/basex/data
+LOGPATH = .logs
+REPOPATH = /home/inesjusto/Documents/4ano/EDC/Data-and-Knowledge-Engineering-Project-1/webproj/app/data/basex/repo
+LANG = English
+LANGKEYS = false
+FAIRLOCK = false
+CACHETIMEOUT = 3600
+
+# Client/Server Architecture
+HOST = localhost
+PORT = 1984
+SERVERPORT = 1984
+USER = 
+PASSWORD = 
+SERVERHOST = 
+PROXYHOST = 
+PROXYPORT = 0
+NONPROXYHOSTS = 
+IGNORECERT = false
+IGNOREHOSTNAME = false
+TIMEOUT = 30
+KEEPALIVE = 600
+PARALLEL = 8
+LOG = true
+LOGMSGMAXLEN = 1000
+
+# HTTP Services
+WEBPATH = /home/inesjusto/Documents/4ano/EDC/Data-and-Knowledge-Engineering-Project-1/webproj/app/data/basex/webapp
+RESTPATH = 
+RESTXQPATH = 
+PARSERESTXQ = 3
+RESTXQERRORS = true
+HTTPLOCAL = false
+STOPPORT = 8985
+AUTHMETHOD = Basic
+
+# Local Options
