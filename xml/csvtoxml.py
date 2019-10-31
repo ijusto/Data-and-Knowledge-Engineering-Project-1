@@ -12,48 +12,48 @@ while True:
     if not line or line[0]=="":
         break
 
-    color = line[0].replace("\"", "")                       #  Color
-    director_name = line[1].replace("\"", "")               #  Zack Snyder
+    color = line[0].replace("\"", "").strip()                                       #  Color
+    director_name = line[1].replace("\"", "")                                       #  Zack Snyder
     d_fn = director_name.split(" ")[0].strip()
     d_ln = director_name.split(" ")[len(director_name.split(" "))-1].strip()
-    num_critic_for_reviews = line[2].replace("\"", "")     #  673
-    duration = line[3].replace("\"", "")                    #  183strip
-    director_facebook_likes = line[4].replace("\"", "")     #  0
-    actor_3_facebook_likes = line[5].replace("\"", "")      #  2000
-    actor_2_name = line[6].replace("\"", "")                #  Lauren Cohan
+    num_critic_for_reviews = line[2].replace("\"", "").strip()                      #  673
+    duration = line[3].replace("\"", "").strip()                                    #  183strip
+    director_facebook_likes = line[4].replace("\"", "").strip()                     #  0
+    actor_3_facebook_likes = line[5].replace("\"", "")  .strip()                    #  2000
+    actor_2_name = line[6].replace("\"", "")                                        #  Lauren Cohan
     a2_fn = actor_2_name.split(" ")[0].strip()
     a2_ln = actor_2_name.split(" ")[len(actor_2_name.split(" "))-1].strip()
-    actor_1_facebook_likes = line[7].replace("\"", "")      #  15000
-    gross = line[8].replace("\"", "")                       #  330249062
+    actor_1_facebook_likes = line[7].replace("\"", "").strip()                      #  15000
+    gross = line[8].replace("\"", "").strip()                                       #  330249062
 
     # list of diferent genres
-    genres = line[9].split("|")         #  Action | Adventure | Sci - Fi
+    genres = line[9].split("|")                                                     #  Action | Adventure | Sci - Fi
 
-    actor_1_name = line[10].replace("\"", "")               #  Henry Cavill
+    actor_1_name = line[10].replace("\"", "")                                       #  Henry Cavill
     a1_fn = actor_1_name.split(" ")[0].strip()
     a1_ln = actor_1_name.split(" ")[len(actor_1_name.split(" "))-1].strip()
-    movie_title = line[11].replace("\"", "")                #  Batman v Superman: Dawn of Justice 
-    num_voted_users = line[12].replace("\"", "")            #  371639
-    cast_total_facebook_likes = line[13].replace("\"", "")  #  24450
-    actor_3_name = line[14].replace("\"", "")               #  Alan D.Purwin
+    movie_title = line[11].replace("\"", "").strip()                                #  Batman v Superman: Dawn of Justice 
+    num_voted_users = line[12].replace("\"", "").strip()                            #  371639
+    cast_total_facebook_likes = line[13].replace("\"", "").strip()                  #  24450
+    actor_3_name = line[14].replace("\"", "")                                       #  Alan D.Purwin
     a3_fn = actor_3_name.split(" ")[0].strip()
     a3_ln = actor_3_name.split(" ")[len(actor_3_name.split(" "))-1].strip()
-    facenumber_in_poster = line[15].replace("\"", "")       #  0
+    facenumber_in_poster = line[15].replace("\"", "").strip()                       #  0
 
     # list of keywords
-    plot_keywords = line[16].split("|") #  based on comic book | batman | sequel to a reboot | superhero | superman
+    plot_keywords = line[16].split("|")                                             #  based on comic book | batman | sequel to a reboot | superhero | superman
 
-    movie_imdb_link = line[17].replace("\"", "")            #  http: // www.imdb.com / title / tt2975590 /?ref_ = fn_tt_tt_1
-    num_user_for_reviews = line[18].replace("\"", "")       #  3018
-    language = line[19].replace("\"", "")                   #  English
-    country = line[20].replace("\"", "")                    #  USA
-    content_rating = line[21].replace("\"", "")             #  PG - 13
-    budget = line[22].replace("\"", "")                     #  250000000
-    title_year = line[23].replace("\"", "")                 #  2016
-    actor_2_facebook_likes = line[24].replace("\"", "")     #  4000
-    imdb_score = line[25].replace("\"", "")                 #  6.9
-    aspect_ratio = line[26].replace("\"", "")                   #  2.35
-    movie_facebook_likes = line[27].replace("\"", "").strip()       #  197000
+    movie_imdb_link = line[17].replace("\"", "").strip()                            #  http: // www.imdb.com / title / tt2975590 /?ref_ = fn_tt_tt_1
+    num_user_for_reviews = line[18].replace("\"", "").strip()                       #  3018
+    language = line[19].replace("\"", "").strip()                                   #  English
+    country = line[20].replace("\"", "").strip()                                    #  USA
+    content_rating = line[21].replace("\"", "").strip()                             #  PG - 13
+    budget = line[22].replace("\"", "").strip()                                     #  250000000
+    title_year = line[23].replace("\"", "").strip()                                 #  2016
+    actor_2_facebook_likes = line[24].replace("\"", "").strip()                     #  4000
+    imdb_score = line[25].replace("\"", "").strip()                                 #  6.9
+    aspect_ratio = line[26].replace("\"", "").strip()                               #  2.35
+    movie_facebook_likes = line[27].replace("\"", "").strip()                       #  197000
 
     movie = f"\t<movie color=\"{color}\"\n" \
             f"\t\trating=\"{content_rating}\"\n" \
