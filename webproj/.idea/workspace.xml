@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ca52bfd-fd8b-4e4d-b1a7-ad44adaeb92b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/data/queries/queries.xq" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data/queries/get_plot_keywords.xq" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/queries/get_plot_keywords.xq" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/queries/get_genres.xq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/queries/get_plot_keywords.xq" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,6 +34,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="XQuery Main Module" />
       </list>
     </option>
   </component>
@@ -117,6 +120,7 @@
       <workItem from="1572516286027" duration="45000" />
       <workItem from="1572516346026" duration="98000" />
       <workItem from="1572516458549" duration="722000" />
+      <workItem from="1572517531220" duration="2223000" />
     </task>
     <servers />
   </component>
