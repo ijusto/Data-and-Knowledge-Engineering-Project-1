@@ -19,7 +19,7 @@ declare function local:get_all_actors() as item(){
 
 };
 
-(: UPDATE xml functions :)
+(: UPDATE DB functions :)
 declare function local:update_names() as item(){
     let $people := doc("moviesDB")//person
     for $person in $people
@@ -38,6 +38,49 @@ declare function local:update_names() as item(){
 (: Get specific functions :)
 
 
+(: Select functions :)
+declare function local:selected_genres($m, $g) as item(){
+    let $movies := doc($m)
+    let $genres := doc($g)
+
+    for $movie in $movies//movie
+        for $m_genre in $movie//genre
+            for $q_genre in $genres//genres
+                where matches(data($q_genre), data($m_genre))
+                return  if (data($genres//genre)="") then
+                            $movies
+                        else
+                            $movie
+};
+
+declare function local:selected_rating($m, $r) as item(){
+    let $movies := doc($m)
+    let $rating := doc($r)
+    for $movie in $movies//movie
+        where matches(data($movie//@rating), data($rating//rating))
+        return if (data($rating//rating)="") then
+                    $movies
+               else
+                    $movie
+};
+
+declare function local:selected_year($m, $y) as item(){
+    let $movies := doc($m)
+    let $year := doc($y)
+    for $movie in $movies//movie
+        where matches(data($movie//year), data($year//year))
+        return if (data($year//year)="") then
+                    $movies
+               else
+                    $movie
+};
+
+declare function local:selected_categories($xml) as item(){
+    (: <query>  <genres>  <genre></genre>  </genres>    <rating></rating>    <year></year>  </query> :)
+    let $query := doc($xml)
+    let $movies := doc(moviesDB)
+    return  local:selected_year(local:selected_rating(local:selected_genres($movies, $query), $query), $query)
+};
 
 
 
