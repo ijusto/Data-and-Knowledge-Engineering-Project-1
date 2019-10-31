@@ -2,7 +2,159 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ca52bfd-fd8b-4e4d-b1a7-ad44adaeb92b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webproj.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webproj.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/.basex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/.basexgui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/.basexhome" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/.logs/2019-10-31.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/BaseX.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/CHANGELOG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basex.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexclient" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexclient.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexgui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexgui.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexhttp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexhttp.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexhttpstop" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexhttpstop.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexserver" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexserver.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexserverstop" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/bin/basexserverstop.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/data/.logs/2019-10-31.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/factbook.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/stopwords.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/w3-catalog.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xhtml-lat1.ent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xhtml-special.ent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xhtml-symbol.ent" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xhtml1-frameset.dtd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xhtml1-strict.dtd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xhtml1-transitional.dtd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/etc/xqdoc.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/LICENSES" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/basex-api-9.2.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/basex-xqj-9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/commons-codec-1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/commons-fileupload-1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/commons-io-1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/igo-0.4.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/javax.servlet-api-3.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jdom-1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-client-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-continuation-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-http-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-io-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-security-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-server-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-servlet-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-servlets-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-util-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-webapp-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jetty-xml-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jing-20091111.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jline-2.14.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/jts-1.13.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/lucene-stemmers-3.4.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/milton-api-1.8.1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/mime-util-2.1.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/slf4j-api-1.7.26.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/slf4j-simple-1.7.26.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/tagsoup-1.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/websocket-api-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/websocket-client-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/websocket-common-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/websocket-server-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/websocket-servlet-9.4.18.v20190429.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/xml-resolver-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/xmldb-api-1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/xqj-api-1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/lib/xqj2-0.2.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/repo/http-www.functx.com-1.0/cxan.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/repo/http-www.functx.com-1.0/expath-pkg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/repo/http-www.functx.com-1.0/functx/functx.xq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/repo/http-www.functx.com-1.0/functx/functx.xsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/src/hello-world.xq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/WEB-INF/jetty.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/chat/chat-util.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/chat/chat-ws.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/chat/chat.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/common.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/backups.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/database.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/databases.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/db-alter.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/db-copy.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/db-create.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/db-drop.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/db-optimize.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/backup-download.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/db-add.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/db-delete.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/db-download.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/db-query.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/db-rename.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/db-replace.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/databases/resources/resource.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/dir-change.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/dir-create.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/file-delete.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/file-download.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/file-start.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/file-stop.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/file-upload.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/files/files.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/jobs/job-result.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/jobs/job-stop.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/jobs/jobs.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/login.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/logs/log-delete.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/logs/log-download.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/logs/logs.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/modules/html.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/modules/options.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/modules/session.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/modules/util.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/queries/queries.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/queries/query-close.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/queries/query-eval.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/queries/query-open.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/queries/query-save.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/sessions/session-kill.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/sessions/sessions.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/settings/settings-gc.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/settings/settings.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/basex.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/codemirror/lib/codemirror.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/codemirror/lib/codemirror.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/codemirror/mode/xml/xml.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/codemirror/mode/xquery/xquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/editor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/static/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/pattern-add.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/pattern-drop.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/user-create.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/user-drop.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/user-edit.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/user.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/dba/users/users.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/restxq.xqm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/static/.ignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/static/basex.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/static/chat.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/basex/webapp/static/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/movies.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/movies.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/queries/queries.xq" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/queries/queries.xq" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/update.xq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xml/csvtoxml.py" beforeDir="false" afterPath="$PROJECT_DIR$/../xml/csvtoxml.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +271,7 @@
       <workItem from="1572516458549" duration="722000" />
       <workItem from="1572517531220" duration="2223000" />
       <workItem from="1572530957015" duration="1686000" />
-      <workItem from="1572532770703" duration="1430000" />
+      <workItem from="1572532770703" duration="7277000" />
     </task>
     <servers />
   </component>

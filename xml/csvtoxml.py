@@ -85,20 +85,26 @@ while True:
     movie += f"\t\t<cast fb_likes=\"{cast_total_facebook_likes}\">\n"\
              f"\t\t\t<main_actors>\n" \
              f"\t\t\t\t<person>\n" \
-             f"\t\t\t\t\t<first_name>{a1_fn}</first_name>\n" \
-             f"\t\t\t\t\t<last_name>{a1_ln}</last_name>\n" \
+             f"\t\t\t\t\t<name>\n" \
+             f"\t\t\t\t\t\t<first_name>{a1_fn}</first_name>\n" \
+             f"\t\t\t\t\t\t<last_name>{a1_ln}</last_name>\n" \
+             f"\t\t\t\t\t</name>\n" \
              f"\t\t\t\t\t<facebook_likes>{actor_1_facebook_likes}</facebook_likes>\n" \
              f"\t\t\t\t\t<profession>Actor</profession>\n" \
              f"\t\t\t\t</person>\n" \
              f"\t\t\t\t<person>\n" \
-             f"\t\t\t\t\t<first_name>{a2_fn}</first_name>\n" \
-             f"\t\t\t\t\t<last_name>{a2_ln}</last_name>\n" \
+             f"\t\t\t\t\t<name>\n" \
+             f"\t\t\t\t\t\t<first_name>{a2_fn}</first_name>\n" \
+             f"\t\t\t\t\t\t<last_name>{a2_ln}</last_name>\n" \
+             f"\t\t\t\t\t</name>\n" \
              f"\t\t\t\t\t<facebook_likes>{actor_2_facebook_likes}</facebook_likes>\n" \
              f"\t\t\t\t\t<profession>Actor</profession>\n" \
              f"\t\t\t\t</person>\n" \
              f"\t\t\t\t<person>\n" \
-             f"\t\t\t\t\t<first_name>{a3_fn}</first_name>\n" \
-             f"\t\t\t\t\t<last_name>{a3_ln}</last_name>\n" \
+             f"\t\t\t\t\t<name>\n" \
+             f"\t\t\t\t\t\t<first_name>{a3_fn}</first_name>\n" \
+             f"\t\t\t\t\t\t<last_name>{a3_ln}</last_name>\n" \
+             f"\t\t\t\t\t</name>\n" \
              f"\t\t\t\t\t<facebook_likes>{actor_3_facebook_likes}</facebook_likes>\n" \
              f"\t\t\t\t\t<profession>Actor</profession>\n" \
              f"\t\t\t\t</person>\n" \
@@ -107,8 +113,10 @@ while True:
 
     movie += f"\t\t<director>\n" \
              f"\t\t\t<person>\n" \
-             f"\t\t\t\t<first_name>{d_fn}</first_name>\n" \
-             f"\t\t\t\t<last_name>{d_ln}</last_name>\n" \
+             f"\t\t\t\t<name>\n" \
+             f"\t\t\t\t\t<first_name>{d_fn}</first_name>\n" \
+             f"\t\t\t\t\t<last_name>{d_ln}</last_name>\n" \
+             f"\t\t\t\t</name>\n" \
              f"\t\t\t\t<facebook_likes>{director_facebook_likes}</facebook_likes>\n" \
              f"\t\t\t\t<profession>Movie Director</profession>\n" \
              f"\t\t\t</person>\n" \

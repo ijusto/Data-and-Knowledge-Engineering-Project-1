@@ -19,7 +19,7 @@ declare function local:get_all_actors() as item(){
 
 };
 
-(: UPDATE xml functions :)
+(: UPDATE DB functions :)
 declare function local:update_names() as item(){
     let $people := doc("moviesDB")//person
     for $person in $people
@@ -38,6 +38,31 @@ declare function local:update_names() as item(){
 (: Get specific functions :)
 
 
+(: Sort functions :)
+declare function local:selected_categories($xml) as item(){
+    (: <query>  <genres>  <genre></genre>  </genres>    <rating></rating>    <year></year>  </query> :)
+    let $query := doc($xml)
+    let $q_genres := $query//genres
+    let $q_rating := $query//rating
+    let $q_year := $query//year
+
+    let $movies := doc(moviesDB)
+    let $m_genres := $movies//genres
+    let $m_rating := $movies//@rating
+    let $m_year := $movies//year
+
+    let $final_movies := <movies>
+
+    for $m_genre in $m_genres
+        for $q_genre in $q_genres
+            if (data($q_genre)=data($m_genre))
+                let $final_movies += $m_genre
+            else
+
+
+    (:year rating genres :)
+    return None
+};
 
 
 
