@@ -21,10 +21,15 @@
       <xs:element type="xs:string" name="link"/>
     </xs:choose>
   </xs:complexType>
-  <xs:complexType name="personType">
+  <xs:complexType name="nameType">
     <xs:sequence>
       <xs:element type="xs:string" name="first_name"/>
       <xs:element type="xs:string" name="last_name"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="personType">
+    <xs:sequence>
+      <xs:element type="nameType" name="name"/>
     </xs:sequence>
     <xs:choose>
       <xs:element type="xs:string" name="facebook_likes"/>
@@ -43,10 +48,18 @@
       <xs:element type="personType" name="person" maxOccurs="unbounded" minOccurs="3"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="secondary_actorsType">
+    <xs:sequence>
+      <xs:element type="personType" name="person" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="castType">
     <xs:sequence>
       <xs:element type="main_actorsType" name="main_actors"/>
     </xs:sequence>
+    <xs:choose>
+      <xs:element type="secondary_actorsType" name="secondary_actors"/>
+    </xs:choose>
     <xs:attribute type="xs:string" name="fb_likes" use="optional"/>
   </xs:complexType>
   <xs:complexType name="directorType">
@@ -69,6 +82,7 @@
       <xs:element type="titleType" name="title"/>
     </xs:sequence>
     <xs:choose>
+      <xs:element type="xs:string" name="poster"/>
       <xs:element type="imbd_infoType" name="imbd_info"/>
     </xs:choose>
     <xs:sequence>

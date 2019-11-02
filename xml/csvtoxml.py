@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
+from bs4 import BeautifulSoup
+import urllib3.request
+import requests
+
 
 csv = open("movie_metadata_final.csv", "r")
 xml = open("movies.xml", "w")
@@ -42,8 +46,10 @@ while True:
 
     # list of keywords
     plot_keywords = line[16].split("|")                                             #  based on comic book | batman | sequel to a reboot | superhero | superman
-
     movie_imdb_link = line[17].replace("\"", "").strip()                            #  http: // www.imdb.com / title / tt2975590 /?ref_ = fn_tt_tt_1
+    image = (BeautifulSoup(requests.get
+                           (movie_imdb_link).text, "html.parser").find
+                                ('div', {'class': 'poster'}).find('img')['src'])
     num_user_for_reviews = line[18].replace("\"", "").strip()                       #  3018
     language = line[19].replace("\"", "").strip()                                   #  English
     country = line[20].replace("\"", "").strip()                                    #  USA
@@ -73,6 +79,7 @@ while True:
              f"\t\t\t<year>{title_year}</year>\n" \
              f"\t\t</title>\n"
 
+    movie += f"\t\t<poster>{image}</poster>\n"
 
     movie += f"\t\t<imbd_info>\n" \
              f"\t\t\t<score num_voted_users=\"{num_voted_users}\"\n" \
@@ -137,6 +144,7 @@ while True:
     movie += f"\t</movie>\n"
 
     xml.write(movie)
+    print("wrote movie " + movie_title)
 
 
 xml.write("</movies>\n")
