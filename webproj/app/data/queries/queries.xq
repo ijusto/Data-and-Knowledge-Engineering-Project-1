@@ -48,47 +48,61 @@ declare function local:get_movies_by_director($dir_first_name as xs:string, $dir
 
 (: SELECT functions :)
 (: Every genre selected :)
-declare function local:selected_genres($m, $g) as item(){
-    let $movies := doc($m)
-    let $genres := doc($g)
-
-    for $movie in $movies//movie
-        for $m_genre in $movie//genre
-            for $q_genre in $genres//genres
-                where matches(data($q_genre), data($m_genre))
-                return  if (data($genres//genre)="") then
-                            $movies
-                        else
-                            $movie
+declare function local:selected_genres($genres) as element()*{
+    <movies>{
+      let $movies := doc("moviesDB")     
+      return if (data($genres//genre[1])="") then
+                  for $movie in $movies//movie
+                  return $movie
+             else
+                  for $movie in $movies//movie
+                    for $m_genre in $movie//genre
+                        for $q_genre in $genres//genre
+                        where matches(data($q_genre), data($m_genre))
+                        return $movie
+    }</movies>
 };
 
-declare function local:selected_rating($m, $r) as item(){
-    let $movies := doc($m)
-    let $rating := doc($r)
-    for $movie in $movies//movie
-        where matches(data($movie//@rating), data($rating//rating))
-        return if (data($rating//rating)="") then
-                    $movies
-               else
-                    $movie
+declare function local:selected_rating($rating) as element()*{
+    <movies>{
+      let $movies := doc("moviesDB")    
+      return if  (data($rating//rating)="") then
+                  for $movie in $movies//movie
+                  return $movie
+             else
+                  for $movie in $movies//movie
+                  where matches(data($movie//@rating), data($rating//rating))
+                  return $movie
+    }</movies>
 };
 
-declare function local:selected_year($m, $y) as item(){
-    let $movies := doc($m)
-    let $year := doc($y)
-    for $movie in $movies//movie
-        where matches(data($movie//year), data($year//year))
-        return if (data($year//year)="") then
-                    $movies
-               else
-                    $movie
+declare function local:selected_year($year) as element()*{
+    <movies>{
+      let $movies := doc("moviesDB")    
+      return if (data($year//year)="") then
+                  for $movie in $movies//movie
+                  return $movie
+             else
+                  for $movie in $movies//movie
+                  where matches(data($movie//year), data($year//year))
+                  return $movie
+    }</movies>
 };
 
-declare function local:selected_categories($xml) as item(){
+declare function local:selected_filters($query) as element()*{
     (: <query>  <genres>  <genre></genre>  </genres>    <rating></rating>    <year></year>  </query> :)
-    let $query := doc($xml)
-    let $movies := doc(moviesDB)
-    return  local:selected_year(local:selected_rating(local:selected_genres($movies, $query), $query), $query)
+    <movies>{
+      let $movies := doc("moviesDB")
+      let $selected_movies_by_year := local:selected_year($query)
+      let $selected_movies_by_rating := local:selected_rating($query)
+      let $selected_movies_by_genres := local:selected_genres($query)
+      for $movie_y in $selected_movies_by_year//movie
+          for $movie_r in $selected_movies_by_rating//movie
+              for $movie_g in $selected_movies_by_genres//movie
+                    where matches(data($movie_y//title/name), data($movie_r//title/name))
+                          and matches(data($movie_g//title/name), data($movie_r//title/name))                         
+                    return $movie_g
+    }</movies>
 };
 
 
@@ -109,5 +123,4 @@ declare function local:update_names() as item(){
       )
 };
 :)
-
-local:get_all_genres()
+local:selected_filters(<query><genres><genre>Action</genre><genre>Comedy</genre></genres><rating>PG-13</rating><year>2009</year></query>)
