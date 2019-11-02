@@ -81,25 +81,50 @@ def movies_feed(request):
 
     session.execute("open moviesDB")
 
-    input1 = "import module namespace movies = 'com.movies' at '"+ os.path.join(BASE_DIR, 'app/data/queries/queries.xq') +"';<genres>{movies:get_all_genres()}</genres>"
+    input1 = "import module namespace movies = 'com.movies' at '"\
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             +"';<genres>{movies:get_all_genres()}</genres>"
+
     query1 = session.query(input1)
 
-    input2 = "import module namespace movies = 'com.movies' at '" + os.path.join(BASE_DIR,
-                                                                                 'app/data/queries/queries.xq') + "';<ratings>{movies:get_all_ratings()}</ratings>"
+    input2 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
+             + "';<ratings>{movies:get_all_ratings()}</ratings>"
+
     query2 = session.query(input2)
 
-    input3 = "import module namespace movies = 'com.movies' at '" + os.path.join(BASE_DIR,
-                                                                                 'app/data/queries/queries.xq') + "';<years>{movies:get_all_years()}</years>"
+    input3 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
+             + "';<years>{movies:get_all_years()}</years>"
+
     query3 = session.query(input3)
 
 
 
-    genres = query1.execute().replace("<genres>\r\n","").replace("\r\n</genres>","").replace("<genre>","").replace(
-        "</genre>","").split("\r\n")
-    ratings = query2.execute().replace("<ratings>\r\n", "").replace("\r\n</ratings>", "").replace("<rating>", "").replace(
-        "</rating>", "").split("\r\n")
-    years = query3.execute().replace("<years>\r\n", "").replace("\r\n</years>", "").replace("<year>", "").replace(
-        "</year>", "").split("\r\n")
+    genres = query1.execute().replace("<genres>",
+                          "").replace("</genres>",
+                          "").replace("\n",
+                          "").replace("\r",
+                          "").replace(" ",
+                          "").replace("</genre>",
+                          "").split("<genre>")
+    print(genres)
+
+    ratings = query2.execute().replace("<ratings>",
+                           "").replace("</ratings>",
+                           "").replace("\n",
+                           "").replace("\r",
+                          "").replace(" ",
+                           "").replace("</rating>",
+                           "").split("<rating>")
+
+    years = query3.execute().replace("<years>",
+                         "").replace("</years>",
+                         "").replace("\n",
+                         "").replace("\r",
+                         "").replace(" ",
+                         "").replace("</year>",
+                         "").split("<year>")
 
     session.close()
 
@@ -116,25 +141,47 @@ def apply_filters(request):
 
     session.execute("open moviesDB")
 
-    input1 = "import module namespace movies = 'com.movies' at '" + os.path.join(BASE_DIR,
-                                                                                 'app/data/queries/queries.xq') + "';<genres>{movies:get_all_genres()}</genres>"
+    input1 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
+             + "';<genres>{movies:get_all_genres()}</genres>"
     query1 = session.query(input1)
 
-    input2 = "import module namespace movies = 'com.movies' at '" + os.path.join(BASE_DIR,
-                                                                                 'app/data/queries/queries.xq') + "';<ratings>{movies:get_all_ratings()}</ratings>"
+    input2 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
+             + "';<ratings>{movies:get_all_ratings()}</ratings>"
+
     query2 = session.query(input2)
 
-    input3 = "import module namespace movies = 'com.movies' at '" + os.path.join(BASE_DIR,
-                                                                                 'app/data/queries/queries.xq') + "';<years>{movies:get_all_years()}</years>"
+    input3 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
+             + "';<years>{movies:get_all_years()}</years>"
+
     query3 = session.query(input3)
 
-    genres = query1.execute().replace("<genres>\r\n", "").replace("\r\n</genres>", "").replace("<genre>", "").replace(
-        "</genre>", "").split("\r\n")
-    ratings = query2.execute().replace("<ratings>\r\n", "").replace("\r\n</ratings>", "").replace("<rating>",
-                                                                                                  "").replace(
-        "</rating>", "").split("\r\n")
-    years = query3.execute().replace("<years>\r\n", "").replace("\r\n</years>", "").replace("<year>", "").replace(
-        "</year>", "").split("\r\n")
+    genres = query1.execute().replace("<genres>",
+                          "").replace("</genres>",
+                          "").replace("\n",
+                          "").replace("\r",
+                          "").replace(" ",
+                          "").replace("</genre>",
+                          "").split("<genre>")
+    print(genres)
+
+    ratings = query2.execute().replace("<ratings>",
+                           "").replace("</ratings>",
+                           "").replace("\n",
+                           "").replace("\r",
+                           "").replace(" ",
+                           "").replace("</rating>",
+                           "").split("<rating>")
+    
+    years = query3.execute().replace("<years>",
+                         "").replace("</years>",
+                         "").replace("\n",
+                         "").replace("\r",
+                         "").replace(" ",
+                         "").replace("</year>",
+                         "").split("<year>")
 
 
     dict={"query": {"genres":{"genre":[""]}, "rating": "", "year":""}}
@@ -148,6 +195,7 @@ def apply_filters(request):
     if 'years' in request.POST:
         dict["query"]["year"] = request.POST['years']
     xml = xmltodict.unparse(dict,pretty=True)
+    print(xml)
 
     '''
     xslt_name = 'movies.xsl'
