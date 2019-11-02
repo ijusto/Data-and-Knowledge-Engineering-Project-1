@@ -93,31 +93,38 @@
                 <!-- Categories Widget -->
                 <div class="card my-4">
                     <h5 class="card-header">Filters</h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <p><b>Genres:</b></p>
-                                <form action="apply_filters" method="post">
-                                    {% csrf_token %}
-                                    {% for g in genres %}
-                                    <input type="checkbox" name={{ g }}> {{ g }}<br>
-                                    {% endfor %}
-                                    <p><input type="submit" value="Filter"/></p>
-                                </form>
-                            </div>
-                            <div class="col-lg-6">
-                                <ul class="list-unstyled mb-0">
-                                    <p><b>Ratings:</b></p>
-                                    <form action="apply_filters" method="post">
+                     <form action="apply_filters" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p><b>Genres:</b></p>
                                         {% csrf_token %}
-                                        {% for r in ratings %}
-                                        <input type="radio" name="ratings" value={{ r }}> {{ r }}<br>
+                                        {% for g in genres %}
+                                            <input type="checkbox" name={{ g }}> {{ g }}<br>
                                         {% endfor %}
-                                    </form>
-                                </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <p><b>Ratings:</b></p>
+                                            {% csrf_token %}
+                                            {% for r in ratings %}
+                                                <input type="radio" name="ratings" value={{ r }}> {{ r }}<br>
+                                            {% endfor %}
+                                        <br/>
+                                        <p><b>Years:</b></p>
+                                        <select name="years">
+                                        <option value=""></option>
+                                        {% for y in years %}
+                                                <option value={{ y }}>{{ y }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </ul>
+                                </div>
                             </div>
+                            <br/>
+                            <p><input type="submit" value="Filter"/></p>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <!-- Side Widget -->
