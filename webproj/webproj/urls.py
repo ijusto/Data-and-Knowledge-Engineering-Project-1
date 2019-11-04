@@ -21,6 +21,7 @@ urlpatterns = [
     #path('', views.index),
     path('movies', views.movies_list),
     path('', views.movies_feed),
+    path('news', views.movies_news_feed),
     path('admin/', admin.site.urls),
     path('apply_filters', views.apply_filters)
 ]

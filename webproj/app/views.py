@@ -64,6 +64,25 @@ def new_movie(request):
             }
         )
 
+def movies_news_feed(request):
+    xml_name = 'movies_rss.xml'
+    xslt_name = 'rss.xsl'
+
+    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    tree = ET.parse(xml_file)
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+    }
+
+    return render(request, 'news.html', tparams)
+
 def movies_feed(request):
     xml_name = 'movies.xml'
     xslt_name = 'movies.xsl'
