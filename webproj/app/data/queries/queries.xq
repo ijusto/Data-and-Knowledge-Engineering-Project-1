@@ -24,13 +24,33 @@ declare function movies:get_all_plot_keywords() as element()*{
     return <text>{ $key_word }</text>
 };
 
-declare function movies:get_all_actors() as item(){
+declare function movies:get_all_actors() as element()*{
   <actors>{
     let $people := doc("moviesDB")//person
     for $person in $people
     where matches(data($person//profession), "Actor")
-    return $person
+    return $person//name
   }</actors>
+};
+
+declare function movies:get_all_directors() as element()*{
+  <directors>{
+    let $people := doc("moviesDB")//person
+    for $person in $people
+    where matches(data($person//profession), "Movie Director")
+    return $person//name
+  }</directors>
+};
+
+declare function movies:get_imdb_link($firstname, $lastname) as element()*{
+    <links>{
+        let $movies := doc("moviesDB")//movie
+        for $movie in $movies
+            for $name in $movie//person/name
+            where matches(data($name/first_name), $firstname) and
+                  matches(data($name/last_name), $lastname)
+            return <link>{$movie//link}</link>
+    }</links>
 };
 
 (: Get specific functions :)
