@@ -9,7 +9,7 @@ import os
 import lxml.etree as ET
 import xmltodict
 from BaseXClient import BaseXClient
-import re
+import requests
 
 def index(request):
     return render(request, 'index.html')
@@ -65,13 +65,13 @@ def new_movie(request):
         )
 
 def movies_news_feed(request):
-    xml_name = 'movies_rss.xml'
-    xslt_name = 'rss.xsl'
+    xml_link = "https://www.cinemablend.com/rss/topic/news/movies"
+    xml_file = requests.get(xml_link)
 
-    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    xslt_name = 'rss.xsl'
     xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
 
-    tree = ET.parse(xml_file)
+    tree = ET.fromstring(xml_file.content)
     xslt = ET.parse(xsl_file)
 
     transform = ET.XSLT(xslt)
