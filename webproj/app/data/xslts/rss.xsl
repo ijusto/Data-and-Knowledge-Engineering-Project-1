@@ -23,8 +23,16 @@
                 </div>
                 <div class="p-2">
                     <!--<div class="card-body" style="align-items: baseline">-->
-                    <h2><!--class="card-title"--><xsl:value-of select="title"/></h2>
-                    <p><xsl:value-of select="description"/></p>
+                    <h2><!--class="card-title"-->
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:value-of select="link"/>
+                            </xsl:attribute>
+                        <xsl:value-of select="title"/>
+                        </a>
+
+                    </h2>
+                    <xsl:value-of select="description"/>
                     <!--</div>-->
                 </div>
             </div>
