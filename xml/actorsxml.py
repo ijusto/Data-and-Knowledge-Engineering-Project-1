@@ -75,10 +75,6 @@ for actor in actors:
                                           "").replace("</link>",
                                           "").split("<link>")[0]
 
-    import re
-
-    [m.start() for m in re.finditer('test', 'test test test test')]
-
     actor_page = (BeautifulSoup(requests.get
                                 (movie_link).text, "html.parser").find
                                 ('a', {'text': actor})['href'])
@@ -88,9 +84,14 @@ for actor in actors:
                                ('img', {'id': 'name-poster'})['src'])
 
     see_full_bio_link = (BeautifulSoup(requests.get
-                                (actor_page).text, "html.parser").find
-                                ('span', {'class': 'see-more inline nobr-only'}).find
-                                ('a')['href'])
+                                      (actor_page).text, "html.parser").find
+                                      ('span', {'class': 'see-more inline nobr-only'}).find
+                                      ('a')['href'])
+
+    born = (BeautifulSoup(requests.get
+                                      (actor_page).text, "html.parser").find
+                                      ('span', {'class': 'see-more inline nobr-only'}).find
+                                      ('a')['href'])
 
     xml.write("\t\t</actor>\n")
 
