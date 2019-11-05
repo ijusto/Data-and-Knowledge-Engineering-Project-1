@@ -29,7 +29,8 @@ def main():
                                       (director_url).text, "html.parser").find
                                       ('img', {'id': 'name-poster'})['src'])
                 bio = get_actor_bio(director_url)
-                directors_list[director_name] = [image, bio]
+                if image and "" not in bio:
+                    directors_list[director_name] = [image, bio]
 
         actor_2_name = line[6].replace("\"", "").strip()
         if actor_2_name not in actors_list:
@@ -39,7 +40,8 @@ def main():
                                       (actor_url).text, "html.parser").find
                                       ('img', {'id': 'name-poster'})['src'])
                 bio = get_actor_bio(actor_url)
-                actors_list[actor_2_name] = [image, bio]
+                if image and "" not in bio:
+                    actors_list[actor_2_name] = [image, bio]
 
         actor_1_name = line[10].replace("\"", "").strip()
         if actor_1_name not in actors_list:
@@ -50,7 +52,8 @@ def main():
                                       ('img', {'id': 'name-poster'})['src'])
 
                 bio = get_actor_bio(actor_url)
-                actors_list[actor_1_name] = [image, bio]
+                if image and "" not in bio:
+                    actors_list[actor_1_name] = [image, bio]
 
 
         actor_3_name = line[14].replace("\"", "").strip()
