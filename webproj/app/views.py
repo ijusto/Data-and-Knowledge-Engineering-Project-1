@@ -237,3 +237,22 @@ def apply_filters(request):
     return render(request, 'index.html', tparams)
     '''
     return movies_feed(request)
+
+def actors_list(request):
+    xml_name = 'movies.xml'
+    xslt_name = 'actors.xsl'
+
+    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    tree = ET.parse(xml_file)
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+    }
+
+    return render(request, 'actors.html', tparams)
