@@ -98,7 +98,7 @@ def movies_feed(request):
 
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
-    session.execute("open moviesDB_short")
+    session.execute("open moviesDB")
 
     input1 = "import module namespace movies = 'com.movies' at '"\
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -271,7 +271,7 @@ def show_movie(request, movie):
 
     input1 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<genres>{movies:get_movie_genres(" + movie + ")}</genres>"
+             + "';<genres>{movies:get_movie_genres(" +"\"<name>"+ movie + "</name>\"" + ")}</genres>"
 
     query1 = session.query(input1)
 
@@ -285,7 +285,7 @@ def show_movie(request, movie):
 
     input2 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<main_actors>{movies:get_movie_main_actors(" + movie + ")}</main_actors>"
+             + "';<main_actors>{movies:get_movie_main_actors(" +"\"<name>"+ movie + "</name>\"" + ")}</main_actors>"
 
     query2 = session.query(input2)
 
@@ -302,7 +302,7 @@ def show_movie(request, movie):
 
     input4 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "'<director>{;movies:get_movie_director_name(" + movie + ")}</director>"
+             + "';<director>{movies:get_movie_director_name(" +"\"<name>"+ movie + "</name>\"" + ")}</director>"
 
     query4 = session.query(input4)
 

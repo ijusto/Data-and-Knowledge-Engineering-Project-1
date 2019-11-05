@@ -55,18 +55,18 @@ declare function movies:get_imdb_link($firstname, $lastname) as element()*{
 
 (: Get specific functions :)
 (: Every movie of an actor :)
-declare function movies:get_movies_by_actor($a_first_name as xs:string, $a_last_name as xs:string) as item(){
+declare function movies:get_movies_by_actor($a_first_name, $a_last_name) as item(){
   <movies>{
   for $movie in  doc("moviesDB")//movie
     for $actors in $movie//main_actors//person
-      where $actors//first_name=$a_first_name and $actors//last_name=$a_last_name
+      where matches(data($actors//first_name), $a_first_name) and matches(data($actors//last_name), $a_last_name)
       return $movie
   }</movies>
 };
 
 (: Every actor of a movie :)
     (:1. No caso de escolhermos não haver atores secundários:)
-declare function movies:get_actors_by_movie($movie_name as xs:string) as element()*{
+declare function movies:get_actors_by_movie($movie_name) as element()*{
 
   let $movie:= doc("moviesDB")//movie[title/name=$movie_name]
   return $movie//main_actors
