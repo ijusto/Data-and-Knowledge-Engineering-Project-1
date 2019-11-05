@@ -24,5 +24,6 @@ urlpatterns = [
     path('news', views.movies_news_feed),
     path('admin/', admin.site.urls),
     path('apply_filters', views.apply_filters),
-    path('actors', views.actors_list)
+    path('actors', views.actors_list),
+    path('movie/<str:movie>/', views.show_movie, name="show_movie")
 ]

@@ -24,9 +24,28 @@
                 </div>
                 <div class="p-2">
                     <!--<div class="card-body" style="align-items: baseline">-->
-                    <h2><!--class="card-title"--><xsl:value-of select="title/name"/></h2>
-                    <p><!-- class="card-text"-->Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                    <a href="#" class="btn btn-primary">Read More ...</a>
+                    <h2>
+                        <a>
+                            <xsl:attribute name="href">movie/<xsl:value-of select="title/name"/>/</xsl:attribute>
+                            <xsl:value-of select="title/name"/>
+                        </a>
+                    </h2>
+                    <p>
+                        <xsl:for-each select="genres/genre">
+                            [<xsl:value-of select="."/>]
+                        </xsl:for-each>
+                        (<xsl:value-of select="title/year"/>)
+                    </p>
+                    <p><strong><i>Director:</i></strong> <xsl:value-of select="director//name"/></p>
+                    <p>
+                        <strong><i>Cast: </i></strong>
+                            <br/>
+                            <xsl:for-each select="cast/main_actors//name">
+                            - <xsl:value-of select="."/>
+                            <br/>
+                        </xsl:for-each>
+                    </p>
+                    <p><strong><xsl:value-of select="imbd_info/score"/></strong>/10</p>
                     <!--</div>-->
                 </div>
                 <!--
