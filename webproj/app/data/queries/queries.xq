@@ -103,6 +103,45 @@ declare function movies:get_movies_by_first_letter($letter) as item(){
   }</movies>
 };
 
+(: Year of a specific movie :)
+declare function movies:get_movie_year($movie_name as xs:string) as item(){
+  let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+  return $movie//year
+};
+
+(: Genres of a specific movie :)
+declare function movies:get_movie_genres($movie_name as xs:string) as element()*{
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    for $genre in $movie//genre
+      return $genre
+};
+
+(: Director of a specific movie :)
+declare function movies:get_movie_director_name($movie_name as xs:string) as item(){
+  let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+  return string-join(($movie/director//first_name/text(), $movie/director//last_name/text())," ")
+};
+
+(: Main actors of a specific movie :)
+declare function movies:get_movie_main_actors($movie_name as xs:string) as element()*{
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    for $actor in $movie//main_actors//name
+      return <actor>{string-join(($actor/first_name/text(), $actor/last_name/text())," ")}</actor>
+};
+
+(: Score of a specific movie :)
+declare function movies:get_movie_score($movie_name as xs:string) as item(){
+  let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+  return <score>{$movie//score/text()}</score>
+};
+
+(: Duration of a specific movie :)
+declare function movies:get_movie_duration($movie_name as xs:string) as item(){
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    return <duration>{data($movie/@duration)}</duration>
+};
+
+
 (: SELECT functions :)
 (: Every genre selected :)
 declare function movies:selected_genres($genres) as element()*{

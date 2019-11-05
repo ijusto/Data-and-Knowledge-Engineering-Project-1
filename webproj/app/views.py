@@ -151,7 +151,7 @@ def movies_feed(request):
         'content': newdoc,
         "genres": genres,
         "ratings": ratings,
-        "years" : years,
+        "years" : years
      }
     return render(request, 'index.html', tparams)
 
@@ -261,3 +261,61 @@ def actors_list(request):
     }
 
     return render(request, 'actors.html', tparams)
+
+# TODO: Not working
+def show_movie(request, movie):
+    print("movie: " + str(type(movie)))
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+    session.execute("open moviesDB")
+
+    input1 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "';<genres>{movies:get_movie_genres(" + movie + ")}</genres>"
+
+    query1 = session.query(input1)
+
+    genres = query1.execute().replace("<genres>",
+                          "").replace("</genres>",
+                          "").replace("\n",
+                          "").replace("\r",
+                          "").replace(" ",
+                          "").replace("</genre>",
+                          "").split("<genre>")
+
+    input2 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "';<main_actors>{movies:get_movie_main_actors(" + movie + ")}</main_actors>"
+
+    query2 = session.query(input2)
+
+    main_actors = query2.execute().replace("<main_actors>",
+                          "").replace("</main_actors>",
+                          "").replace("\n",
+                          "").replace("\r",
+                          "").replace(" ",
+                          "").replace("</actor>",
+                          "").split("<actor>")
+
+
+    secondary_actors = []
+
+    input4 = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "'<director>{;movies:get_movie_director_name(" + movie + ")}</director>"
+
+    query4 = session.query(input4)
+
+    director = query4.execute().replace("<director>",
+                          "").replace("</director>",
+                          "").replace("\n",
+                          "").replace("\r",
+                          "").replace(" ","")
+    tparams = {
+        'genres': genres,
+        'main_actors': main_actors,
+        'secondary_actors': secondary_actors,
+        'director': director
+    }
+
+    return render(request, 'movie_page.html', tparams)

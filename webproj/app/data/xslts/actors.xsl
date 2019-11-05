@@ -15,7 +15,6 @@
                     <!--<div class="card-body" style="align-items: baseline">-->
                     <h2><!--class="card-title"-->
                         <xsl:value-of select="name/first_name"/>
-                        <xsl:>
                         <xsl:value-of select="name/last_name"/>
                     </h2>
                     <p><!-- class="card-text"-->Informação do ator....</p>
