@@ -146,7 +146,7 @@ declare function movies:get_movie_duration($movie_name as xs:string) as item(){
 (: Every genre selected :)
 declare function movies:selected_genres($genres) as element()*{
     <movies>{
-      let $movies := doc("moviesDB")     
+      let $movies := doc("moviesDB")
       return if (data($genres//genre[1])="") then
                   for $movie in $movies//movie
                   return $movie
@@ -161,7 +161,7 @@ declare function movies:selected_genres($genres) as element()*{
 
 declare function movies:selected_rating($rating) as element()*{
     <movies>{
-      let $movies := doc("moviesDB")    
+      let $movies := doc("moviesDB")
       return if  (data($rating//rating)="") then
                   for $movie in $movies//movie
                   return $movie
@@ -174,7 +174,7 @@ declare function movies:selected_rating($rating) as element()*{
 
 declare function movies:selected_year($year) as element()*{
     <movies>{
-      let $movies := doc("moviesDB")    
+      let $movies := doc("moviesDB")
       return if (data($year//year)="") then
                   for $movie in $movies//movie
                   return $movie
@@ -185,9 +185,8 @@ declare function movies:selected_year($year) as element()*{
     }</movies>
 };
 
-declare function movies:selected_filters($query) as element()*{
+declare function movies:apply_filters($query) as element()*{
 (: <query>  <genres>  <genre></genre>  </genres>    <rating></rating>    <year></year>  </query> :)
-    <movies>{
         let $movies := doc("moviesDB")
         let $selected_movies_by_year := movies:selected_year($query)
         let $selected_movies_by_rating := movies:selected_rating($query)
@@ -198,7 +197,13 @@ declare function movies:selected_filters($query) as element()*{
         where matches(data($movie_y//title/name), data($movie_r//title/name))
                 and matches(data($movie_g//title/name), data($movie_r//title/name))
         return $movie_g
-    }</movies>
+};
+
+declare function movies:selected_filters($query) as element()*{
+    let $filtered := movies:apply_filters($query)
+    for $a in distinct-values($filtered//title/name)
+    let $b := $filtered//title/name[.=$a]
+    return $b[1]/../..
 };
 
 (: UPDATE DB functions :)

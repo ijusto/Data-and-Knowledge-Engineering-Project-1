@@ -1,147 +1,145 @@
 # -*- coding: utf-8 -*-
+import re
 from bs4 import BeautifulSoup
 import urllib3.request
 import requests
-import re
-import os
+def main():
+    # people xml
 
-xml = open("people.xml", "w")
+    csv = open("movie_metadata_final.csv", "r")
+    xml = open("people.xml", "w")
 
-xml.write("<?xml version=\"1.0\"?>\n<people>\n")
+    xml.write("<?xml version=\"1.0\"?>\n<movies>\n")
 
-number = 1
+    actors_list = {}
+    directors_list = {}
 
-session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+    while True:
+        line_t = csv.readline()
+        line = re.compile(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))").split(line_t)
+        if not line or line[0] == "":
+            break
 
-session.execute("open moviesDB")
+        movie_imdb_link = line[17].replace("\"", "").strip()                            #  http: // www.imdb.com / title / tt2975590 /?ref_ = fn_tt_tt_1
+        director_name = line[1].replace("\"", "").strip()
+        if director_name not in directors_list:
+            director_url = find_dir_profile_link(movie_imdb_link, director_name)
+            if director_url is not None:
+                image = (BeautifulSoup(requests.get
+                                      (director_url).text, "html.parser").find
+                                      ('img', {'id': 'name-poster'})['src'])
+                bio = get_actor_bio(director_url)
+                directors_list[director_name] = [image, bio]
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        actor_2_name = line[6].replace("\"", "").strip()
+        if actor_2_name not in actors_list:
+            actor_url = find_profile_link(movie_imdb_link, actor_2_name)
+            if actor_url is not None:
+                image = (BeautifulSoup(requests.get
+                                      (actor_url).text, "html.parser").find
+                                      ('img', {'id': 'name-poster'})['src'])
+                bio = get_actor_bio(actor_url)
+                actors_list[actor_2_name] = [image, bio]
 
-input1 = "import module namespace movies = 'com.movies' at '" \
-         + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
-         + "';<actors>{movies:get_all_actors()}</actors>"
-all_actors = session.query(input1)
+        actor_1_name = line[10].replace("\"", "").strip()
+        if actor_1_name not in actors_list:
+            actor_url = find_profile_link(movie_imdb_link, actor_1_name)
+            if actor_url is not None:
+                image = (BeautifulSoup(requests.get
+                                      (actor_url).text, "html.parser").find
+                                      ('img', {'id': 'name-poster'})['src'])
 
-input2 = "import module namespace movies = 'com.movies' at '" \
-         + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
-         + "';<directors>{movies:get_all_directors()}</directors>"
+                bio = get_actor_bio(actor_url)
+                actors_list[actor_1_name] = [image, bio]
 
-all_directors = session.query(input2)
 
-'''
-<name>
-    <first_name>James</first_name>
-    <last_name>Cameron</last_name>
-</name>
-'''
+        actor_3_name = line[14].replace("\"", "").strip()
+        if actor_3_name not in actors_list:
+            actor_url = find_profile_link(movie_imdb_link, actor_3_name)
+            if actor_url is not None:
+                image = (BeautifulSoup(requests.get
+                                      (actor_url).text, "html.parser").find
+                                      ('img', {'id': 'name-poster'})['src'])
+                bio = get_actor_bio(actor_url)
+                if image and "" not in bio:
+                    actors_list[actor_3_name] = [image, bio]
 
-actors = all_actors.execute().replace("<first_name>",
-                          "").replace("</first_name>",
-                          " ").replace("<last_name>",
-                          "").replace("</last_name>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "").replace(" ",
-                          "").replace("</name>",
-                          "").split("<name>")
-print(actors)
-directors = all_directors.execute().replace("<first_name>",
-                          "").replace("</first_name>",
-                          " ").replace("<last_name>",
-                          "").replace("</last_name>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "").replace(" ",
-                          "").replace("</name>",
-                          "").split("<name>")
-print(directors)
-xml.write("<people>\n")
-xml.write("\t<actors>\n")
-for actor in actors:
-    xml.write("\t\t<actor>\n")
-    begin_query = "<links>{movies:get_imdb_link("
-    end_query = ")}</links>"
-    input3 = f'import module namespace movies = \'com.movies\' at \'' \
-             f'{os.path.join(BASE_DIR, "app/data/queries/queries.xq")}\';' \
-             f'{begin_query}{actor}{end_query}'
-    actor_movie_links = session.query(input3)
+    csv.close()
 
-    # <links><links><link>""</link></links></links>
-    movie_link = actor_movie_links.execute().replace("<links>",
-                                          "").replace("</links>",
-                                          "").replace("\n",
-                                          "").replace("\r",
-                                          "").replace(" ",
-                                          "").replace("</link>",
-                                          "").split("<link>")[0]
+    xml.write("<people>\n")
+    xml.write("\t<actors>\n")
+    for actor in actors_list:
+        xml.write("\t\t<person>\n")
+        xml.write(f"\t\t\t<name>{actor}</name>\n")
+        xml.write(f"\t\t\t<img>{actors_list[actor][0]}</img>\n")
+        xml.write(f"\t\t\t<img>{actors_list[actor][1]}</img>\n")
+        xml.write("\t\t</person>\n")
+    xml.write("\t</actors>\n")
+    xml.write("\t<directors>\n")
+    for director in directors_list:
+        xml.write("\t\t<person>\n")
+        xml.write(f"\t\t\t<name>{director}</name>\n")
+        xml.write(f"\t\t\t<img>{directors_list[director][0]}</img>\n")
+        xml.write(f"\t\t\t<img>{directors_list[actdirectoror][1]}</img>\n")
+        xml.write("\t\t</person>\n")
+    xml.write("\t</directors>\n")
+    xml.write("</people>\n")
+    xml.close()
 
-    import re
 
-    [m.start() for m in re.finditer('test', 'test test test test')]
+def find_profile_link(url, actorname):
+    soup= (BeautifulSoup(requests.get(url).text, "html.parser"))
 
-    actor_page = (BeautifulSoup(requests.get
-                                (movie_link).text, "html.parser").find
-                                ('a', {'text': actor})['href'])
+    divs = soup.find_all('div', {'class':'credit_summary_item'})
 
-    actor_img = (BeautifulSoup(requests.get
-                               (actor_page).text, "html.parser").find
-                               ('img', {'id': 'name-poster'})['src'])
+    mydiv = None
 
-    see_full_bio_link = (BeautifulSoup(requests.get
-                                (actor_page).text, "html.parser").find
-                                ('span', {'class': 'see-more inline nobr-only'}).find
-                                ('a')['href'])
+    for div in divs:
+        if "Stars:" in div.h4.text:
+            mydiv = div
 
-    xml.write("\t\t</actor>\n")
+    actors = mydiv.find_all('a')
 
-    xml.write(actor_info)
-    print("wrote actor: " + actor + " - " + number)
-    number += 1
+    for a in actors:
+        if actorname in a.text:
+            print("actor " + actorname)
+            return "http://www.imdb.com" + a['href']
+    print("None actor")
+    return None
 
-xml.write("\t</actors>\n")
+def find_dir_profile_link(url, dirname):
+    soup= (BeautifulSoup(requests.get(url).text, "html.parser"))
 
-xml.write("\t<directors>\n")
-for director in directors:
-    xml.write("\t\t<director>\n")
-    begin_query = "<links>{movies:get_imdb_link("
-    end_query = ")}</links>"
-    input3 = f'import module namespace movies = \'com.movies\' at \'' \
-             f'{os.path.join(BASE_DIR, "app/data/queries/queries.xq")}\';' \
-             f'{begin_query}{director}{end_query}'
-    director_movie_links = session.query(input3)
+    divs = soup.find_all('div', {'class':'credit_summary_item'})
 
-    # <links><links><link>""</link></links></links>
-    movie_link = director_movie_links.execute().replace("<links>",
-                                             "").replace("</links>",
-                                             "").replace("\n",
-                                             "").replace("\r",
-                                             "").replace(" ",
-                                             "").replace("</link>",
-                                             "").split("<link>")[0]
+    mydiv = None
 
-    director_page = (BeautifulSoup(requests.get
-                                (movie_link).text, "html.parser").find
-                                ('div', {'class': 'plot_summary '}).find
-                                ('div', {'class': 'credit_summary_item'}).find
-                                ('a')['href'])
+    for div in divs:
+        if "Director:" in div.h4.text:
+            mydiv = div
 
-    director_img = (BeautifulSoup(requests.get
-                                 (director_page).text, "html.parser").find
-                                 ('img', {'id': 'name-poster'})['src'])
+    if mydiv is not None:
+        a = mydiv.find('a')
+        if dirname in a.text:
+            print("dir " + dirname)
+            return "http://www.imdb.com" + a['href']
+    print("None director")
 
-    director_story = (BeautifulSoup(requests.get
-                                   (director_page).text, "html.parser").find
-                                   ('div', {'class': ' name-trivia-bio-text'}).find
-                                   ('div', {'class': ' inline'}).find
-                                   ('img', {'id': 'name-poster'})['src'])
+    return None
 
-    xml.write("\t\t</director>\n")
+def get_actor_bio(url):
+    link_bio = url + "bio"
+    bio_text = (BeautifulSoup(requests.get
+                              (link_bio).text, "html.parser").find
+                              ('div', {'class': 'soda odd'}))
 
-    xml.write(director_info)
-    print("wrote director: " + director + " - " + number)
-    number += 1
+    bio = ""
+    if bio_text is not None:
+        bio_text = bio_text.find_all("p")
+        for text in bio_text:
+            bio += text.text
 
-xml.write("\t</directors>\n")
-xml.write("</people>\n")
-xml.close()
+    return bio
 
+if __name__ == '__main__':
+    main()
