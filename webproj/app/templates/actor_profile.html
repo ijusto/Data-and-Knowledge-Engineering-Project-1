@@ -42,7 +42,7 @@
                         <a class="nav-link" href="../../news">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="actors">Actors</a>
+                        <a class="nav-link" href="../../actors">Actors</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
@@ -58,12 +58,37 @@
         <div class="row">
             <!-- Blog Entries Column -->
             <div class="col-md-8 align-items-center">
-                <h1 class="my-4">Actors
+                <h1 class="my-4">{{ title_name }}
                     <!--TODO category selected-->
                 </h1>
 
-                {{ content | safe }}
+                <div class="d-flex flex-row" style="min-width: 0;
+                                                word-wrap: break-word;
+                                                background-color: #fff;
+                                                background-clip: border-box;
+                                                border: 1px solid rgba(0, 0, 0, 0.125);
+                                                border-radius: 0.25rem;
+                                                border-bottom-right-radius: 0.25rem;
+                                                border-bottom-left-radius: 0.25rem;
+                                                margin-bottom: 1.5rem !important;">
+                    <div class="p-2">
+                        <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
+                        <img class="card-img-top" src="{{ actor_img }}" alt="Card image cap" />
+                    </div>
+                    <div class="p-2">
+                        <!--<div class="card-body" style="align-items: baseline">-->
+                        <h2>{{actor_name}}</h2>
+                        <p>{{actor_bio}}</p>
 
+                        <!--</div>-->
+                    </div>
+                    <!--
+                    <div class="card-footer text-muted">
+                        Posted on January 1, 2017 by
+                        <a href="#">Start Bootstrap</a>
+                    </div>
+                    -->
+                </div>
             </div>
         </div>
         <!-- /.row -->

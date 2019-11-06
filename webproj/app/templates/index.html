@@ -90,31 +90,14 @@
                             <form action="apply_search" method="post">
                                 {% csrf_token %}
                                 <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                <br/>
                                 <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-secondary" type="button">Go!</button>
+                                    <button type="submit" class="btn btn-secondary" type="button">Search</button>
                                 </span>
                             </form>
                         </div>
                     </div>
                 </div>
-
-                <!-- OrderBy Widget -->
-                    <div class="card my-4">
-                        <h5 class="card-header">Order By</h5>
-                        <div class="card-body">
-                            <select>
-                                <form action="/" method="post">
-                                    <option value="" type="submit"></option>
-                                </form>
-                                <form action="orderByScore" method="post">
-                                    <option value="score" type="submit">Score</option>
-                                </form>
-                                <form action="orderByTitle" method="post">
-                                    <option value="title" type="submit">Title</option>
-                                </form>
-                            </select>
-                        </div>
-                    </div>
 
                 <!-- Categories Widget -->
                 <div class="card my-4">
@@ -137,18 +120,30 @@
                                                 <input type="radio" name="ratings" value={{ r }}> {{ r }}<br>
                                             {% endfor %}
                                         <br/>
-                                        <p><b>Years:</b></p>
-                                        <select name="years">
-                                        <option value=""></option>
-                                        {% for y in years %}
-                                                <option value={{ y }}>{{ y }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <br/>
+                                        <b>Years:</b>
+                                        <p>
+                                            <select name="years">
+                                                <option value=""></option>
+                                                {% for y in years %}
+                                                    <option value={{ y }}>{{ y }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </p>
+                                        <br/>
+                                        <b>Order by:</b>
+                                        <p>
+                                            <select name="orderby">
+                                                <option value=""></option>
+                                                <option value="score">Score</option>
+                                                <option value="title">Title</option>
+                                            </select>
+                                        </p>
                                     </ul>
                                 </div>
                             </div>
                             <br/>
-                            <p><input type="submit" value="Filter"/></p>
+                            <p align="right"><input type="submit" value="Filter"/></p>
                         </div>
                     </form>
                 </div>

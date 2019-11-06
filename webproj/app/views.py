@@ -248,7 +248,7 @@ def movies_feed(request):
 def apply_filters(request):
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
-    session.execute("open moviesDB_short")
+    session.execute("open moviesDB")
 
     input1 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \
@@ -520,3 +520,27 @@ def apply_search(request):
         "years": years
     }
     return render(request,'index.html',tparams)
+
+def actor_profile(request, actor):
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+    session.execute("open peopleDB")
+
+    input_img = "import module namespace people = 'com.people'; at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
+             + "';<movie>{movies:get_img(" + "<name>" + actor + "</name>" + ")}</movie>"
+
+    input_bio = "import module namespace people = 'com.people'; at '" \
+                + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
+                + "';<movie>{movies:get_bio(" + "<name>" + actor + "</name>" + ")}</movie>"
+
+    query_img = session.query(input_img).execute()
+    query_bio = session.query(input_bio).execute()
+
+    tparams = {
+        'actor_img': query_img.replace("<img>","").replace("</img>", ""),
+        'actor_bio': query_bio.replace("<bio.>","").replace("</bio.>", ""),
+        'actor_name': actor
+    }
+
+    return render(request, 'movie_page.html', tparams)
