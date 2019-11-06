@@ -434,6 +434,25 @@ def actors_list(request):
 
     return render(request, 'actors.html', tparams)
 
+def directors_list(request):
+    xml_name = 'movies.xml'
+    xslt_name = 'directors.xsl'
+
+    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    tree = ET.parse(xml_file)
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+    }
+
+    return render(request, 'directors.html', tparams)
+
 # TODO: Not working
 def show_movie(request, movie):
     print("movie: " + str(type(movie)))
@@ -636,3 +655,43 @@ def actor_profile(request, actor):
     }
 
     return render(request, 'actor_profile.html', tparams)
+
+def director_profile(request, director):
+    fn_director = director.split("_")[0]
+    if len(director.split("_")) >= 2:
+        ln_director = director.split("_")[1]
+    else:
+        ln_director = fn_director
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+    session.execute("open peopleDB")
+
+    input_img = "import module namespace people = 'com.people' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
+             + "';<movie>{people:get_img(" + "<name><first_name>" + fn_director + "</first_name><last_name>"+ln_director+"</last_name></name>" + ")}</movie>"
+
+    input_bio = "import module namespace people = 'com.people' at '" \
+                + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
+                + "';<movie>{people:get_bio(" + "<name><first_name>" + fn_director + "</first_name><last_name>"+ln_director+"</last_name></name>" + ")}</movie>"
+
+    query_img = session.query(input_img).execute()
+    print(query_img)
+    if query_img == "<movie/>":
+        query_img = "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
+    query_bio = session.query(input_bio).execute()
+    if query_bio == "<movie/>":
+        query_bio = "No bio found."
+    print(query_bio)
+
+    if len(director.split("_")) >= 2:
+        ln_director = director.split("_")[1]
+    else:
+        ln_director = ""
+
+    tparams = {
+        'director_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
+        'director_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
+        'director_name': fn_director+" "+ln_director
+    }
+
+    return render(request, 'director_profile.html', tparams)
