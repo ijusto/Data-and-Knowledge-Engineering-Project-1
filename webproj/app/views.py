@@ -308,10 +308,11 @@ def apply_filters(request):
     xml_query = xmltodict.unparse(dict, pretty=True)
     xml_parts = xml_query.rpartition("?>")
     xml_query = xml_parts[2].lstrip()
+    order = request.POST["orderby"]
 
     input4 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<movies>{movies:selected_filters(" + xml_query + ")}</movies>"
+             + "';<movies>{movies:selected_filters(" + xml_query + ", <o>" + order + "</o>)}</movies>"
     query4 = session.query(input4)
     xml_result = query4.execute()
     xml_result = xml_parts[0] + xml_parts[1] + "\n\r" + xml_result

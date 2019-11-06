@@ -219,11 +219,26 @@ declare function movies:apply_filters($query) as element()*{
         return $movie_g
 };
 
-declare function movies:selected_filters($query) as element()*{
+declare function movies:selected_filters($query, $order) as element()*{
     let $filtered := movies:apply_filters($query)
-    for $name in distinct-values($filtered//title/name)
-    let $b := $filtered//title/name[.=$name]
-    return $b[1]/../..
+    return if (data($order)='title') then 
+      for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      order by $b[1]/../..//title/name
+      return $b[1]/../..
+    else if (data($order)='score') then
+      for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      order by $b[1]/../..//imbd_info/score descending
+      return $b[1]/../..
+    else if (data($order)='year') then
+      for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      order by $b[1]/../..//title/year descending
+      return $b[1]/../..
+    else for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      return $b[1]/../..
 };
 
 declare updating function movies:ins_movie($movie){
