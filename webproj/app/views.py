@@ -359,52 +359,30 @@ def show_movie(request, movie):
 
     session.execute("open moviesDB")
 
-    input1 = "import module namespace movies = 'com.movies' at '" \
+    input = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<genres>{movies:get_movie_genres(" +"<name>"+ movie + "</name>" + ")}</genres>"
+             + "';<movie>{movies:get_movie(" + "<name>" + movie + "</name>" + ")}</movie>"
 
-    query1 = session.query(input1)
-    genres = query1.execute().replace("<genres>",
-                          "").replace("</genres>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "").replace(" ",
-                          "").replace("</genre>",
-                          "").split("<genre>")
+    query = session.query(input).execute()
 
-    input2 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<main_actors>{movies:get_movie_main_actors(" +"<name>"+ movie + "</name>" +  ")}</main_actors>"
+    dict = xmltodict.parse(query)
 
-    query2 = session.query(input2)
+    movie_cast = []
+    movie_director = []
+    movie_genres = []
 
-    main_actors = query2.execute().replace("<main_actors>",
-                          "").replace("</main_actors>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "").replace(" ",
-                          "").replace("</actor>",
-                          "").split("<actor>")
-
-
-    secondary_actors = []
-
-    input4 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<director>{movies:get_movie_director_name(" +"<name>"+ movie + "</name>" +  ")}</director>"
-
-    query4 = session.query(input4)
-
-    director = query4.execute().replace("<director>",
-                          "").replace("</director>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "")
     tparams = {
-        'genres': genres,
-        'main_actors': main_actors,
-        'secondary_actors': secondary_actors,
-        'director': director
+        'movie_name': dict['movie']['movie']['title']['name'],
+        'movie_img': dict['movie']['movie']['poster'],
+        'movie_year': dict['movie']['movie']['title']['year'],
+        'movie_score': dict['movie']['movie']['imbd_info']['score']['#text'],
+        'movie_cast': movie_cast,
+        'movie_director': movie_director,
+        'movie_genres': movie_genres,
+        'movie_rating': dict['movie']['movie']['@rating'],
+        'movie_language': dict['movie']['movie']['@language'],
+        'movie_country': dict['movie']['movie']['@country'],
+        'movie_duration': dict['movie']['movie']['@duration']
     }
 
     return render(request, 'movie_page.html', tparams)

@@ -103,8 +103,13 @@ declare function movies:get_movies_by_first_letter($letter) as item(){
   }</movies>
 };
 
+declare function movies:get_movie($movie_name) as element()*{
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    return $movie
+};
+
 (: Year of a specific movie :)
-declare function movies:get_movie_year($movie_name as xs:string) as item(){
+declare function movies:get_movie_year($movie_name) as item(){
   let $movie := doc("moviesDB")//movie[title/name=$movie_name]
   return $movie//year
 };
