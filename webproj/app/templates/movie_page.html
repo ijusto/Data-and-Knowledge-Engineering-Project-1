@@ -30,11 +30,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Movies</a>
                     </li>
@@ -45,7 +40,7 @@
                         <a class="nav-link" href="../../actors">Actors</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="../../directors">Directors</a>
                     </li>
                 </ul>
             </div>
@@ -57,7 +52,7 @@
        
         <div class="row">
             <!-- Blog Entries Column -->
-            <div class="col-md-8 align-items-center">
+            <div class="col-md-12 align-items-center">
                 <div class="d-flex flex-row" style="min-width: 0;
                                                 word-wrap: break-word;
                                                 background-color: #fff;
@@ -69,7 +64,7 @@
                                                 margin-bottom: 1.5rem !important;">
                 <div class="p-2">
                     <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
-                    <img src="{{movie_img}}" alt="Card image cap" class="card-img-top"/>
+                    <img style="width:350px" src="{{movie_img}}" alt="Card image cap" class="card-img"/>
                 </div>
                 <div class="p-2">
                     <!--<div class="card-body" style="align-items: baseline">-->
@@ -98,10 +93,12 @@
                                     [{{ actor_name }}]
                                     {% endfor %}
                                 {% endif %}
-
                             <br/>
+                    <p>
+
                     </p>
-                    <p><strong>{{ imbd_info_score }}</strong>/10</p>
+                    </p>
+                    <p><strong>{{ movie_score }}</strong>/10</p>
                     <!--</div>-->
                 </div>
 
