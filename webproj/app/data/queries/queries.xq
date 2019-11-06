@@ -230,7 +230,6 @@ declare function movies:apply_filters($query) as element()*{
                 and matches(data($movie_g//title/name), data($movie_r//title/name))
         return $movie_g
 };
-<<<<<<< HEAD
   :)
   
   declare function movies:apply_filters($query) as element()*{
@@ -247,11 +246,8 @@ declare function movies:apply_filters($query) as element()*{
                 and matches(data($movie_y//title/name), data($movie_g//title/name))
         return $movie_g
 };
-declare function movies:selected_filters($query) as element()*{
-=======
 
 declare function movies:selected_filters($query, $order) as element()*{
->>>>>>> f166f4afbfe0c17a1ed968cdde0f9446a535f0c6
     let $filtered := movies:apply_filters($query)
     return if (data($order)='title') then 
       for $name in distinct-values($filtered//title/name)
