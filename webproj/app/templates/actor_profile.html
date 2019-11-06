@@ -39,10 +39,10 @@
                         <a class="nav-link" href="/">Movies</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="news">News</a>
+                        <a class="nav-link" href="../../news">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="actors">Actors</a>
+                        <a class="nav-link" href="../../actors">Actors</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
@@ -58,58 +58,37 @@
         <div class="row">
             <!-- Blog Entries Column -->
             <div class="col-md-8 align-items-center">
-                <h1 class="my-4">New movie
+                <h1 class="my-4">{{ title_name }}
                     <!--TODO category selected-->
                 </h1>
 
-                {% if error %}
-                    <p style="...">ERROR: insert the requested information</p>
-                {% endif %}
-                <form action="newMovies" method="post">
-                    {% csrf_token %}
-                    <p> <label>Title: <input type="text" name="title" /></label> *</p>
-                    <p>Year: <input type="text" name="year" />*</p>
-                    <p>Director:
-                        <br/>
-                        First name: <input type="text" name="first_name1" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name1" /> *
-                    </p>
-                    <p>Actor 1:
-                        <br/>
-                        First name: <input type="text" name="first_name2" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name2" /> *
-                    </p>
-                    <p>Actor 2:
-                        <br/>
-                        First name: <input type="text" name="first_name3" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name3" /> *
-                    </p>
-                    <p>Actor 3:
-                        <br/>
-                        First name: <input type="text" name="first_name4" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name4" /> *
-                    </p>
-                    <p>
-                        Duration: <input type="text" name="duration"/> *
-                    </p>
-                        <!-- Buscar info ao HTML usando XQuery -->
-                    <p>Genres: </p>
-                    <p><input type="text" name="genre1"/> *</p>
-                    <p><input type="text" name="genre2"/></p>
-                    <p><input type="text" name="genre3"/></p>
-                    <p><input type="text" name="genre4"/></p>
-                    <!-- Buscar info ao HTML usando XQuery -->
-                    <p>Rating: <input type="text" name="rating"/> *
-                    <p>Country: <input type="text" name="country" /></p>
-                    <p>Budget: <input type="text" name="budget" /></p>
-                    <p>* - required</p>
-                    <p><input type="submit" value="Submit" /></p>
-                </form>
+                <div class="d-flex flex-row" style="min-width: 0;
+                                                word-wrap: break-word;
+                                                background-color: #fff;
+                                                background-clip: border-box;
+                                                border: 1px solid rgba(0, 0, 0, 0.125);
+                                                border-radius: 0.25rem;
+                                                border-bottom-right-radius: 0.25rem;
+                                                border-bottom-left-radius: 0.25rem;
+                                                margin-bottom: 1.5rem !important;">
+                    <div class="p-2">
+                        <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
+                        <img class="card-img-top" src="{{ actor_img }}" alt="Card image cap" />
+                    </div>
+                    <div class="p-2">
+                        <!--<div class="card-body" style="align-items: baseline">-->
+                        <h2>{{actor_name}}</h2>
+                        <p>{{actor_bio}}</p>
 
+                        <!--</div>-->
+                    </div>
+                    <!--
+                    <div class="card-footer text-muted">
+                        Posted on January 1, 2017 by
+                        <a href="#">Start Bootstrap</a>
+                    </div>
+                    -->
+                </div>
             </div>
         </div>
         <!-- /.row -->
