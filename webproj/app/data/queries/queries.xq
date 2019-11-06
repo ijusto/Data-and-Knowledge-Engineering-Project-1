@@ -110,7 +110,7 @@ declare function movies:get_movie_year($movie_name as xs:string) as item(){
 };
 
 (: Genres of a specific movie :)
-declare function movies:get_movie_genres($movie_name as xs:string) as element()*{
+declare function movies:get_movie_genres($movie_name) as element()*{
     let $movie := doc("moviesDB")//movie[title/name=$movie_name]
     for $genre in $movie//genre
       return $genre
@@ -230,3 +230,4 @@ declare function local:update_names() as item(){
 };
 :)
 (:movies:selected_filters(<query><genres><genre>Action</genre><genre>Comedy</genre></genres><rating>PG-13</rating><year>2009</year></query>):)
+

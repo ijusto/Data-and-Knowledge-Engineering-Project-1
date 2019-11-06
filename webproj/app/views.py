@@ -361,10 +361,9 @@ def show_movie(request, movie):
 
     input1 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<genres>{movies:get_movie_genres(" +"\"<name>"+ movie + "</name>\"" + ")}</genres>"
+             + "';<genres>{movies:get_movie_genres(" +"<name>"+ movie + "</name>" + ")}</genres>"
 
     query1 = session.query(input1)
-
     genres = query1.execute().replace("<genres>",
                           "").replace("</genres>",
                           "").replace("\n",
@@ -375,7 +374,7 @@ def show_movie(request, movie):
 
     input2 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<main_actors>{movies:get_movie_main_actors(" +"\"<name>"+ movie + "</name>\"" + ")}</main_actors>"
+             + "';<main_actors>{movies:get_movie_main_actors(" +"<name>"+ movie + "</name>" +  ")}</main_actors>"
 
     query2 = session.query(input2)
 
@@ -392,7 +391,7 @@ def show_movie(request, movie):
 
     input4 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<director>{movies:get_movie_director_name(" +"\"<name>"+ movie + "</name>\"" + ")}</director>"
+             + "';<director>{movies:get_movie_director_name(" +"<name>"+ movie + "</name>" +  ")}</director>"
 
     query4 = session.query(input4)
 
@@ -400,7 +399,7 @@ def show_movie(request, movie):
                           "").replace("</director>",
                           "").replace("\n",
                           "").replace("\r",
-                          "").replace(" ","")
+                          "")
     tparams = {
         'genres': genres,
         'main_actors': main_actors,
