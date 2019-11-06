@@ -14,31 +14,122 @@ import requests
 def index(request):
     return render(request, 'index.html')
 
-def movies_list(request):
-    xml_name = 'movies.xml'
-    xslt_name = 'movies.xsl'
-
-    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
-    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
-
-    tree = ET.parse(xml_file)
-    xslt = ET.parse(xsl_file)
-
-    transform = ET.XSLT(xslt)
-    newdoc = transform(tree)
-
-    tparams = {
-         'content': newdoc,
-     }
-    return render(request, 'movies.html', tparams)
-
 def new_movie(request):
     assert isinstance(request, HttpRequest)
-    #MUDAR If para verificação xmlschema
-    if 'title' in request.POST and 'year' in request.POST:
+    dict={
+        "movies": {
+            "movie" : {
+                "@rating":"",
+                "@budget":0,
+                "@duration":"",
+                "@country":"XXX",
+                "title":{
+                    "name":"",
+                    "year":""
+                },
+                "cast": {
+                    "main_actors" :{
+                        "person" : []
+                    }
+                },
+                "director" :"",
+                "genres": {
+                    "genre" : []
+                }
+            }}}
+
+    if 'title' in request.POST:
+        if request.POST['title']!="":
+            dict['movies']['movie']['title']['name'] = request.POST['title']
+    if 'year' in request.POST:
+        if request.POST['year'] != "":
+            dict['movies']['movie']['title']['year'] = request.POST['year']
+    if 'first_name1' and 'last_name1' in request.POST:
+        if request.POST['first_name1'] != "" and request.POST['last_name1']!="":
+            dict["movies"]["movie"]['director'] = {
+                "person" : {
+                    "name" :{
+                         "first_name" : request.POST['first_name1'],
+                         "last_name" : request.POST['last_name1'],
+                    }
+                }
+            }
+    if 'first_name2' and 'last_name2' in request.POST:
+        if request.POST['first_name2'] != "" and request.POST['last_name2']!="":
+            dict["movies"]["movie"]['cast']['main_actors']['person'].append({
+                                "name" :{
+                                    "first_name" : request.POST['first_name2'],
+                                    "last_name" : request.POST['last_name2'],
+                                }
+                            })
+    if 'first_name3' and 'last_name3' in request.POST:
+        if request.POST['first_name3'] != "" and request.POST['last_name3'] != "":
+            dict["movies"]["movie"]['cast']['main_actors']['person'].append({
+                                "name" :{
+                                    "first_name" : request.POST['first_name3'],
+                                    "last_name" : request.POST['last_name3'],
+                                }
+                            })
+    if 'first_name4' and 'last_name4' in request.POST:
+        if request.POST['first_name4'] != "" and request.POST['last_name4'] != "":
+            dict["movies"]["movie"]['cast']['main_actors']['person'].append({
+                                "name" :{
+                                    "first_name" : request.POST['first_name4'],
+                                    "last_name" : request.POST['last_name4'],
+                                }
+                            })
+    if 'genre1' in request.POST:
+        if request.POST['genre1'] != "":
+            dict["movies"]["movie"]['genres']['genre'].append(request.POST['genre1'])
+    if 'genre2' in request.POST:
+        if request.POST['genre2'] != "":
+            dict["movies"]["movie"]['genres']['genre'].append(request.POST['genre2'])
+    if 'genre3' in request.POST:
+        if request.POST['genre3'] != "":
+            dict["movies"]["movie"]['genres']['genre'].append(request.POST['genre3'])
+    if 'genre4' in request.POST:
+        if request.POST['genre4'] != "":
+            dict["movies"]["movie"]['genres']['genre'].append(request.POST['genre4'])
+    if 'budget' in request.POST:
+        if request.POST['budget'] != "":
+            dict["movies"]["movie"]['@budget'] = request.POST['budget']
+    if 'country' in request.POST:
+        if request.POST['country'] != "":
+            dict["movies"]["movie"]['@country'] = request.POST['country']
+    if 'duration' in request.POST:
+        if request.POST['duration'] != "":
+            dict["movies"]["movie"]['@duration'] = request.POST['duration']
+    if 'rating' in request.POST:
+        if request.POST['rating'] != "":
+            dict["movies"]["movie"]['@rating'] = request.POST['rating']
+
+    xml_newmovie=xmltodict.unparse(dict, pretty=True)
+    xsd_name = 'moviesSchema.xsd'
+    xsd_file = os.path.join(BASE_DIR, 'app/data/' + xsd_name)
+
+    tree = ET.fromstring(bytes(xml_newmovie,'utf-8'))
+    xsd_parsed = ET.parse(xsd_file)
+
+    xsd = ET.XMLSchema(xsd_parsed)
+
+    if 'title' in request.POST:
         title = request.POST['title']
         year = request.POST['year']
-        if title and year:
+        if xsd.validate(tree):
+            session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+            session.execute("open moviesDB")
+            xml_newmovie = xml_newmovie.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "")
+
+            input1 = "import module namespace movies = 'com.movies' at '" \
+                     + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+                     + "';movies:ins_movie(" + xml_newmovie + ")"
+
+            query1 = session.query(input1)
+
+            query1.execute()
+
+            session.close()
             return render(
                 request,
                 'Auxiliar.html',
@@ -63,7 +154,6 @@ def new_movie(request):
                 'error': False,
             }
         )
-
 def movies_news_feed(request):
     xml_link = "https://www.cinemablend.com/rss/topic/news/movies"
     xml_file = requests.get(xml_link)

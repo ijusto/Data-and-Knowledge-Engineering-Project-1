@@ -19,11 +19,11 @@ from app import views
 
 urlpatterns = [
     #path('', views.index),
-    path('movies', views.movies_list),
     path('', views.movies_feed),
     path('news', views.movies_news_feed),
     path('admin/', admin.site.urls),
     path('apply_filters', views.apply_filters),
     path('actors', views.actors_list),
-    path('movie/<str:movie>/', views.show_movie, name="show_movie")
+    path('movie/<str:movie>/', views.show_movie, name="show_movie"),
+    path('newMovies',views.new_movie)
 ]

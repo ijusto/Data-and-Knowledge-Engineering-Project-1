@@ -201,9 +201,15 @@ declare function movies:apply_filters($query) as element()*{
 
 declare function movies:selected_filters($query) as element()*{
     let $filtered := movies:apply_filters($query)
-    for $a in distinct-values($filtered//title/name)
-    let $b := $filtered//title/name[.=$a]
+    for $name in distinct-values($filtered//title/name)
+    let $b := $filtered//title/name[.=$name]
     return $b[1]/../..
+};
+
+declare updating function movies:ins_movie($movie){
+  let $bs := collection('moviesDB')//movies
+  let $node := $movie//movie
+  return insert node $node as first into $bs
 };
 
 (: UPDATE DB functions :)

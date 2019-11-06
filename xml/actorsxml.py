@@ -3,14 +3,17 @@ import re
 from bs4 import BeautifulSoup
 import urllib3.request
 import requests
+
+count = 0
+
 def main():
     # people xml
 
     csv = open("movie_metadata_final.csv", "r")
     xml = open("people.xml", "w")
 
-    xml.write("<?xml version=\"1.0\"?>\n<movies>\n")
-
+    xml.write("<?xml version=\"1.0\"?>\n")
+    xml.write("<people>\n")
     actors_list = {}
     directors_list = {}
 
@@ -22,70 +25,100 @@ def main():
 
         movie_imdb_link = line[17].replace("\"", "").strip()                            #  http: // www.imdb.com / title / tt2975590 /?ref_ = fn_tt_tt_1
         director_name = line[1].replace("\"", "").strip()
+        print("\n--------------------------------------\ndir name: "+director_name)
         if director_name not in directors_list:
             director_url = find_dir_profile_link(movie_imdb_link, director_name)
             if director_url is not None:
-                image = (BeautifulSoup(requests.get
-                                      (director_url).text, "html.parser").find
-                                      ('img', {'id': 'name-poster'})['src'])
+                try:
+                    image = (BeautifulSoup(requests.get
+                                          (director_url).text, "html.parser").find
+                                          ('img', {'id': 'name-poster'})['src'])
+                    print("Image "+image+"\n")
+                except :
+                    image = None
+                    print("Image None\n")
                 bio = get_actor_bio(director_url)
-                if image and "" not in bio:
+                print("Bio "+bio+"\n")
+                if image is not None:
+                    print("writen")
                     directors_list[director_name] = [image, bio]
+                    xml.write("\t\t<director>\n")
+                    xml.write(f"\t\t\t<name>{director_name}</name>\n")
+                    xml.write(f"\t\t\t<img>{image}</img>\n")
+                    xml.write(f"\t\t\t<bio>{bio}</bio>\n")
+                    xml.write("\t\t</director>\n")
 
         actor_2_name = line[6].replace("\"", "").strip()
+        print("\n--------------------------------------\nactor name: "+actor_2_name)
         if actor_2_name not in actors_list:
             actor_url = find_profile_link(movie_imdb_link, actor_2_name)
             if actor_url is not None:
-                image = (BeautifulSoup(requests.get
-                                      (actor_url).text, "html.parser").find
-                                      ('img', {'id': 'name-poster'})['src'])
+                try:
+                    image = (BeautifulSoup(requests.get
+                                          (actor_url).text, "html.parser").find
+                                          ('img', {'id': 'name-poster'})['src'])
+                    print("Image "+image+"\n")
+                except :
+                    image = None
+                    print("Image None\n")
                 bio = get_actor_bio(actor_url)
-                if image and "" not in bio:
+                print("Bio "+bio+"\n")
+                if image is not None:
                     actors_list[actor_2_name] = [image, bio]
+                    xml.write("\t\t<actor>\n")
+                    xml.write(f"\t\t\t<name>{actor_2_name}</name>\n")
+                    xml.write(f"\t\t\t<img>{image}</img>\n")
+                    xml.write(f"\t\t\t<bio>{bio}</bio>\n")
+                    xml.write("\t\t</actor>\n")
 
         actor_1_name = line[10].replace("\"", "").strip()
+        print("\n--------------------------------------\nactor name: "+actor_1_name)
         if actor_1_name not in actors_list:
             actor_url = find_profile_link(movie_imdb_link, actor_1_name)
             if actor_url is not None:
-                image = (BeautifulSoup(requests.get
-                                      (actor_url).text, "html.parser").find
-                                      ('img', {'id': 'name-poster'})['src'])
-
+                try:
+                    image = (BeautifulSoup(requests.get
+                                          (actor_url).text, "html.parser").find
+                                          ('img', {'id': 'name-poster'})['src'])
+                    print("Image "+image+"\n")
+                except :
+                    image = None
+                    print("Image None\n")
                 bio = get_actor_bio(actor_url)
-                if image and "" not in bio:
+                print("Bio "+bio+"\n")
+                if image is not None:
                     actors_list[actor_1_name] = [image, bio]
+                    xml.write("\t\t<actor>\n")
+                    xml.write(f"\t\t\t<name>{actor_1_name}</name>\n")
+                    xml.write(f"\t\t\t<img>{image}</img>\n")
+                    xml.write(f"\t\t\t<bio>{bio}</bio>\n")
+                    xml.write("\t\t</actor>\n")
 
 
         actor_3_name = line[14].replace("\"", "").strip()
+        print("\n--------------------------------------\nactor name: "+actor_3_name)
         if actor_3_name not in actors_list:
             actor_url = find_profile_link(movie_imdb_link, actor_3_name)
             if actor_url is not None:
-                image = (BeautifulSoup(requests.get
-                                      (actor_url).text, "html.parser").find
-                                      ('img', {'id': 'name-poster'})['src'])
+                try:
+                    image = (BeautifulSoup(requests.get
+                                          (actor_url).text, "html.parser").find
+                                          ('img', {'id': 'name-poster'})['src'])
+                    print("Image "+image+"\n")
+                except:
+                    print("Image None\n")
+                    image = None
                 bio = get_actor_bio(actor_url)
-                if image and "" not in bio:
+                print("Bio "+bio+"\n")
+                if image is not None:
                     actors_list[actor_3_name] = [image, bio]
+                    xml.write("\t\t<actor>\n")
+                    xml.write(f"\t\t\t<name>{actor_3_name}</name>\n")
+                    xml.write(f"\t\t\t<img>{image}</img>\n")
+                    xml.write(f"\t\t\t<bio>{bio}</bio>\n")
+                    xml.write("\t\t</actor>\n")
 
     csv.close()
-
-    xml.write("<people>\n")
-    xml.write("\t<actors>\n")
-    for actor in actors_list:
-        xml.write("\t\t<person>\n")
-        xml.write(f"\t\t\t<name>{actor}</name>\n")
-        xml.write(f"\t\t\t<img>{actors_list[actor][0]}</img>\n")
-        xml.write(f"\t\t\t<img>{actors_list[actor][1]}</img>\n")
-        xml.write("\t\t</person>\n")
-    xml.write("\t</actors>\n")
-    xml.write("\t<directors>\n")
-    for director in directors_list:
-        xml.write("\t\t<person>\n")
-        xml.write(f"\t\t\t<name>{director}</name>\n")
-        xml.write(f"\t\t\t<img>{directors_list[director][0]}</img>\n")
-        xml.write(f"\t\t\t<img>{directors_list[actdirectoror][1]}</img>\n")
-        xml.write("\t\t</person>\n")
-    xml.write("\t</directors>\n")
     xml.write("</people>\n")
     xml.close()
 
@@ -105,7 +138,9 @@ def find_profile_link(url, actorname):
 
     for a in actors:
         if actorname in a.text:
-            print("actor " + actorname)
+            global count
+            count += 1
+            print("actor " + actorname + "count: " + str(count))
             return "http://www.imdb.com" + a['href']
     print("None actor")
     return None
@@ -124,7 +159,9 @@ def find_dir_profile_link(url, dirname):
     if mydiv is not None:
         a = mydiv.find('a')
         if dirname in a.text:
-            print("dir " + dirname)
+            global count
+            count += 1
+            print("dir " + dirname + "count: " + str(count))
             return "http://www.imdb.com" + a['href']
     print("None director")
 
