@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block content %}
+
+    <!-- Blog Entries Column -->
+      <div class="col-md-8">
+          <h1 class="my-4">Movies
+              <!--TODO category selected-->
+              <small></small>
+          </h1>
+
+          {{ content | safe }}
+      </div>
+{% endblock %}

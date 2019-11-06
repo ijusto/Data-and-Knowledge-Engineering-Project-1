@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="/">
-        <xsl:for-each select="//cast//person">
+        <xsl:for-each select="//director//person">
             <div class="d-flex flex-row" style="min-width: 0;
                                                 word-wrap: break-word;
                                                 background-color: #fff;
@@ -16,7 +16,7 @@
                     <h5>
                         &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                         <a>
-                            <xsl:attribute name="href">actor/<xsl:value-of select="name/first_name"/>_<xsl:value-of select="name/last_name"/>/</xsl:attribute>
+                            <xsl:attribute name="href">director/<xsl:value-of select="name/first_name"/>_<xsl:value-of select="name/last_name"/>/</xsl:attribute>
                             <xsl:value-of select="name"/>
                         </a>
                     </h5>
