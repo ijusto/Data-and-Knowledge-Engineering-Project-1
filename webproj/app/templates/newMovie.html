@@ -62,46 +62,47 @@
                 {% endif %}
                 <form action="newMovies" method="post">
                     {% csrf_token %}
-                    <p> <label>Title: <input type="text" name="title" /></label> *</p>
-                    <p>Year: <input type="text" name="year" />*</p>
-                    <p>Director:
+                    <p><b>Title:</b>  <font color="red">*</font></p>
+                    <p><input type="text" name="title" /></p>
+                    <p><b>Year:</b> <font color="red">*</font></p>
+                    <p><input type="text" name="year" /></p>
+                    <p><b>Director:</b> <font color="red">*</font>
                         <br/>
-                        First name: <input type="text" name="first_name1" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name1" /> *
+                        First name: <input type="text" name="first_name1" />
+                        Last name: <input type="text" name="last_name1" />
                     </p>
-                    <p>Actor 1:
+                    <p><b>Actor 1:</b> <font color="red">*</font>
                         <br/>
-                        First name: <input type="text" name="first_name2" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name2" /> *
+                        First name: <input type="text" name="first_name2" />
+                        Last name: <input type="text" name="last_name2" />
                     </p>
-                    <p>Actor 2:
+                    <p><b>Actor 2:</b> <font color="red">*</font>
                         <br/>
-                        First name: <input type="text" name="first_name3" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name3" /> *
+                        First name: <input type="text" name="first_name3" />
+                        Last name: <input type="text" name="last_name3" />
                     </p>
-                    <p>Actor 3:
+                    <p><b>Actor 3:</b> <font color="red">*</font>
                         <br/>
-                        First name: <input type="text" name="first_name4" /> *
-                        <br/>
-                        Last name: <input type="text" name="last_name4" /> *
+                        First name: <input type="text" name="first_name4" />
+                        Last name: <input type="text" name="last_name4" />
                     </p>
-                    <p>
-                        Duration: <input type="text" name="duration"/> *
-                    </p>
+                    <p><b>Duration:</b> <font color="red">*</font></p>
+                    <p><input type="text" name="duration"/></p>
                         <!-- Buscar info ao HTML usando XQuery -->
-                    <p>Genres: </p>
-                    <p><input type="text" name="genre1"/> *</p>
-                    <p><input type="text" name="genre2"/></p>
-                    <p><input type="text" name="genre3"/></p>
-                    <p><input type="text" name="genre4"/></p>
+                    <p><b>Genres:</b></p>
+                    <p><input type="text" name="genre1"/>
+                        <font color="red">* </font>
+                        <input type="text" name="genre2"/></p>
+                    <p><input type="text" name="genre3"/>
+                    <input type="text" name="genre4"/></p>
                     <!-- Buscar info ao HTML usando XQuery -->
-                    <p>Rating: <input type="text" name="rating"/> *
-                    <p>Country: <input type="text" name="country" /></p>
-                    <p>Budget: <input type="text" name="budget" /></p>
-                    <p>* - required</p>
+                    <p><b>Rating:</b> <font color="red">*</font></p>
+                    <p><input type="text" name="rating"/></p>
+                    <p><b>Country:</b> </p>
+                    <p><input type="text" name="country" /></p>
+                    <p><b>Budget:</b>
+                    <p><input type="text" name="budget" /></p>
+                    <p><font color="red">*</font><b> - required</b></p>
                     <p><input type="submit" value="Submit" /></p>
                 </form>
 
@@ -114,7 +115,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+            <p class="m-0 text-center text-white">EDC - Trabalho Prático 1 - Grupo 3</p>
         </div>
         <!-- /.container -->
     </footer>
@@ -124,5 +125,4 @@
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
-
 </html>
