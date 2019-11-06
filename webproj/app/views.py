@@ -540,7 +540,11 @@ def actor_profile(request, actor):
 
     query_img = session.query(input_img).execute()
     print(query_img)
+    if query_img == "<movie/>":
+        query_img = "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
     query_bio = session.query(input_bio).execute()
+    if query_bio == "<movie/>":
+        query_bio = "No bio found."
     print(query_bio)
 
     tparams = {

@@ -1,58 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <!--  the number of items to include in each group -->
     <xsl:template match="/">
-        <!-- Blog Post -->
-        <xsl:for-each select="//item">
-            <div class="d-flex flex-row" style="min-width: 0;
-                                                word-wrap: break-word;
-                                                background-color: #fff;
-                                                background-clip: border-box;
-                                                border: 1px solid rgba(0, 0, 0, 0.125);
-                                                border-radius: 0.25rem;
-                                                border-bottom-right-radius: 0.25rem;
-                                                border-bottom-left-radius: 0.25rem;">
-                <div class="p-2">
-                    <xsl:attribute name="style">width: 50%; height: 50%</xsl:attribute>
-                    <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
-                    <img>                        <xsl:attribute name="style">"width: 50%; height: 50%"</xsl:attribute>
-
-                        <xsl:attribute name="src"><xsl:value-of select="enclosure/@url"/></xsl:attribute>
-                        <xsl:attribute name="alt">Card image cap</xsl:attribute>
-                        <xsl:attribute name="class">card-img-top</xsl:attribute>
-                    </img>
-                </div>
-                <div class="p-2">
-                    <!--<div class="card-body" style="align-items: baseline">-->
-                    <h2><!--class="card-title"-->
-                        <a>
-                            <xsl:attribute name="href">
-                                <xsl:value-of select="link"/>
-                            </xsl:attribute>
-                        <xsl:value-of select="title"/>
-                        </a>
-
-                    </h2>
-                    <xsl:value-of select="description"/>
-                    <!--</div>-->
-                </div>
+        <xsl:apply-templates select="//item[position() mod 3 = 1]" />
+    </xsl:template>
+    <xsl:template match="item" mode="inner">
+        <!-- handle items appropriately here -->
+        <div class="col-md-4 align-items-center" style="min-width: 0;
+                                                    word-wrap: break-word;
+                                                    background-color: #fff;
+                                                    background-clip: border-box;
+                                                    border: 1px solid rgba(0, 0, 0, 0.125);
+                                                    border-radius: 0.25rem;
+                                                    border-bottom-right-radius: 0.25rem;
+                                                    border-bottom-left-radius: 0.25rem;">
+            <br/>
+            <img>
+                <xsl:attribute name="style">"width: 60%; height: 60%"</xsl:attribute>
+                <xsl:attribute name="src"><xsl:value-of select="enclosure/@url"/></xsl:attribute>
+                <xsl:attribute name="alt">Card image cap</xsl:attribute>
+                <xsl:attribute name="class">card-img-top</xsl:attribute>
+            </img>
+            <br/>
+            <h2>
+                <a> <xsl:attribute name="href"><xsl:value-of select="link"/></xsl:attribute>
+                    <xsl:value-of select="title"/>
+                </a>
+            </h2><br/>
+            <!--<xsl:value-of select="description"/>-->
+            <div class="card-footer text-muted">
+                <xsl:value-of select="pubDate"/>
+                <a href="https://www.cinemablend.com">CinemaBlend Latest Content</a>
             </div>
-            <div class="d-flex flex-row" style="min-width: 0;
-                                                word-wrap: break-word;
-                                                background-color: #fff;
-                                                background-clip: border-box;
-                                                border: 1px solid rgba(0, 0, 0, 0.125);
-                                                border-radius: 0.25rem;
-                                                border-bottom-right-radius: 0.25rem;
-                                                border-bottom-left-radius: 0.25rem;
-                                                margin-bottom: 1.5rem !important;">
-
-                <div class="p-2">
-                    <div class="card-footer text-muted">
-                        <xsl:value-of select="pubDate"/>
-                        <a href="https://www.cinemablend.com">CinemaBlend Latest Content</a>
-                    </div>
-                </div>
-            </div>
-        </xsl:for-each>
+        </div>
+    </xsl:template>
+    <xsl:template match="item">
+        <div class="row">
+            <br/><br/>
+            <xsl:apply-templates select=".|following-sibling::item[position() > 3]" mode="inner" />
+        </div>
     </xsl:template>
 </xsl:stylesheet>

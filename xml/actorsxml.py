@@ -5,6 +5,7 @@ import urllib3.request
 import requests
 
 count = 0
+line_count = 0
 
 def main():
     # people xml
@@ -22,6 +23,9 @@ def main():
         line = re.compile(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))").split(line_t)
         if not line or line[0] == "":
             break
+        global line_count
+        line_count += 1
+        print("line: "+str(line_count))
 
         movie_imdb_link = line[17].replace("\"", "").strip()                            #  http: // www.imdb.com / title / tt2975590 /?ref_ = fn_tt_tt_1
         director_name = line[1].replace("\"", "").strip()
