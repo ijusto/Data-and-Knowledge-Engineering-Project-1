@@ -364,25 +364,85 @@ def show_movie(request, movie):
              + "';<movie>{movies:get_movie(" + "<name>" + movie + "</name>" + ")}</movie>"
 
     query = session.query(input).execute()
-
     dict = xmltodict.parse(query)
 
-    movie_cast = []
-    movie_director = []
-    movie_genres = []
+    # USING QUERY TO GET THE MOVIE CAST
+    input = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "';<actors>{movies:get_movie_main_actors(" + "<name>" + movie + "</name>" + ")}</actors>"
+
+    movie_main_actors = session.query(input).execute().replace("<actors>",
+                                                      "").replace("</actors>",
+                                                      "").replace("</actor>",
+                                                      "").replace("\n",
+                                                      "").replace("\r",
+                                                      "").split("<actor>")
+
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<actors>{movies:get_movie_secondary_actors(" + "<name>" + movie + "</name>" + ")}</actors>"
+
+    movie_secondary_actors = session.query(input).execute()
+
+    if movie_secondary_actors == "<actors/>":
+        movie_secondary_actors = [" "]
+    else:
+        movie_secondary_actors.replace("<actors>",
+                                      "").replace("</actors>",
+                                      "").replace("</actor>",
+                                      "").replace("\n",
+                                      "").replace("\r",
+                                      "").split("<actor>")
+
+    # USING QUERY TO GET THE MOVIE DIRECTOR
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<director>{movies:get_movie_director_name(" + "<name>" + movie + "</name>" + ")}</director>"
+
+    movie_director = session.query(input).execute().replace("<director>",
+                                                  "").replace("</director>",
+                                                  "").replace("\n",
+                                                  "").replace("\r",
+                                                  "")
+
+    # USING QUERY TO GET THE MOVIE GENRES
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<genres>{movies:get_movie_genres(" + "<name>" + movie + "</name>" + ")}</genres>"
+
+    movie_genres = session.query(input).execute().replace("<genres>",
+                                                "").replace("</genres>",
+                                                "").replace("</genre>",
+                                                "").replace("\n",
+                                                "").replace("\r",
+                                                "").split("<genre>")
+
+    # USING QUERY TO GET THE MOVIE KEYWORDS
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<keywords>{movies:get_movie_plot_keywords(" + "<name>" + movie + "</name>" + ")}</keywords>"
+
+    plot_keywords = session.query(input).execute().replace("<keywords>",
+                                                "").replace("</keywords>",
+                                                "").replace("</keyword>",
+                                                "").replace("\n",
+                                                "").replace("\r",
+                                                "").split("<keyword>")
 
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
         'movie_img': dict['movie']['movie']['poster'],
         'movie_year': dict['movie']['movie']['title']['year'],
         'movie_score': dict['movie']['movie']['imbd_info']['score']['#text'],
-        'movie_cast': movie_cast,
+        'movie_main_actors': movie_main_actors[1:],
+        'movie_secondary_actors': movie_secondary_actors[1:],
         'movie_director': movie_director,
-        'movie_genres': movie_genres,
+        'movie_genres': movie_genres[1:],
         'movie_rating': dict['movie']['movie']['@rating'],
         'movie_language': dict['movie']['movie']['@language'],
         'movie_country': dict['movie']['movie']['@country'],
-        'movie_duration': dict['movie']['movie']['@duration']
+        'movie_duration': dict['movie']['movie']['@duration'],
+        'movie_plot_keywords': plot_keywords[1:]
     }
 
     return render(request, 'movie_page.html', tparams)
