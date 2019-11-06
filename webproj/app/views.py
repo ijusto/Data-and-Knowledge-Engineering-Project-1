@@ -18,6 +18,7 @@ def new_movie(request):
     dict={
         "movies": {
             "movie" : {
+                "@language":"XXX",
                 "@rating":"",
                 "@budget":0,
                 "@duration":"",
@@ -26,6 +27,7 @@ def new_movie(request):
                     "name":"",
                     "year":""
                 },
+                "poster" : "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT16wQWF2p4_8GBLCNAMR9tOfs-q7o1TpLN23n7obheV5IroABG&fbclid=IwAR0YOgN094aLmuX7Z0VMd9xyXgiBZDQu7-HXpB7NAEm8CKiWxz_8JUQJ1nE",
                 "imbd_info":{
                     "score":"?",
                 },
@@ -447,6 +449,7 @@ def show_movie(request, movie):
 
     query = session.query(input).execute()
     dict = xmltodict.parse(query)
+    print(dict)
 
     # USING QUERY TO GET THE MOVIE CAST
     input = "import module namespace movies = 'com.movies' at '" \
@@ -511,11 +514,18 @@ def show_movie(request, movie):
                                                 "").replace("\r",
                                                 "").split("<keyword>")
 
+    try:
+        score=dict['movie']['movie']['imbd_info']['score']['#text']
+    except:
+        score=dict['movie']['movie']['imbd_info']['score']
+        score=dict['movie']['movie']['imbd_info']['score']
+
+
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
         'movie_img': dict['movie']['movie']['poster'],
         'movie_year': dict['movie']['movie']['title']['year'],
-        'movie_score': dict['movie']['movie']['imbd_info']['score']['#text'],
+        'movie_score': score,
         'movie_main_actors': movie_main_actors[1:],
         'movie_secondary_actors': movie_secondary_actors[1:],
         'movie_director': movie_director,
@@ -605,9 +615,7 @@ def apply_search(request):
 
 def actor_profile(request, actor):
     fn_actor = actor.split("_")[0]
-    print(fn_actor)
     ln_actor = actor.split("_")[1]
-    print(ln_actor)
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
     session.execute("open peopleDB")
@@ -621,7 +629,6 @@ def actor_profile(request, actor):
                 + "';<movie>{people:get_bio(" + "<name><first_name>" + fn_actor + "</first_name><last_name>"+ln_actor+"</last_name></name>" + ")}</movie>"
 
     query_img = session.query(input_img).execute()
-    print(query_img)
     if query_img == "<movie/>":
         query_img = "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
     query_bio = session.query(input_bio).execute()
