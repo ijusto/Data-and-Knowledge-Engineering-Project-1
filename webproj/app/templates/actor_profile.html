@@ -24,7 +24,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">MovieDB</a>
+            <a class="navbar-brand" href="/">MovieDB</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,59 +49,53 @@
 
     <!-- Page Content -->
     <div class="container">
-       
+
         <div class="row">
             <!-- Blog Entries Column -->
-            <div class="col-md-12 align-items-center">
+            <div class="col-md-12 align-items-center" style="border: 1px solid rgba(0, 0, 0, 0.125);">
+                <h1 class="my-4">{{ title_name }}
+                    <!--TODO category selected-->
+                </h1>
+
                 <div class="d-flex flex-row" style="min-width: 0;
                                                 word-wrap: break-word;
                                                 background-color: #fff;
                                                 background-clip: border-box;
-                                                border: 1px solid rgba(0, 0, 0, 0.125);
+                                                border: 1px solid rgba(0, 0, 0, 0);
                                                 border-radius: 0.25rem;
                                                 border-bottom-right-radius: 0.25rem;
                                                 border-bottom-left-radius: 0.25rem;
                                                 margin-bottom: 1.5rem !important;">
-                <div class="p-2">
-                    <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
-                    <img style="width:350px" src="{{movie_img}}" alt="Card image cap" class="card-img"/>
+                    <div class="p-2">
+                        <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
+                        <img style="width: 200px" class="card-img-top" src="{{ actor_img }}" alt="Card image cap" />
+                    </div>
+                    <div class="p-2">
+                        <!--<div class="card-body" style="align-items: baseline">-->
+                        <h2>{{actor_name}}</h2>
+                        <!--</div>-->
+                    </div>
+                    <!--
+                    <div class="card-footer text-muted">
+                        Posted on January 1, 2017 by
+                        <a href="#">Start Bootstrap</a>
+                    </div>
+                    -->
                 </div>
-                <div class="p-2">
-                    <!--<div class="card-body" style="align-items: baseline">-->
-                    <h2><!--class="card-title"-->{{ movie_name }}</h2>
-                    <p>
-                        {% for genre in movie_genres %}
-                            [{{ genre }}]
-                        {% endfor %}
-                        ({{ movie_year }})
-                    </p>
-                    <p><strong><i>Director:</i></strong>{{movie_director}}</p>
-                    <p>
-                        <strong><i>Cast: </i></strong>
-                            <br/>
-                                <strong>Main actors: </strong>
-                                {% for actor_name in movie_main_actors %}
-                                    [{{ actor_name }}]
-                                {% endfor %}
-                            <br/>
-                            <br/>
-                                <strong>Secondary actors: </strong>
-                                {% if movie_secondary_actors|length == 0 %}
-                                    None
-                                {% else %}
-                                    {% for actor_name in movie_secondary_actors %}
-                                    [{{ actor_name }}]
-                                    {% endfor %}
-                                {% endif %}
-                            <br/>
-                    <p>
+                <div class="d-flex flex-row" style="min-width: 0;
+                                                word-wrap: break-word;
+                                                background-color: #fff;
+                                                background-clip: border-box;
+                                                border: 1px solid rgba(0, 0, 0, 0);
+                                                border-radius: 0.25rem;
+                                                border-bottom-right-radius: 0.25rem;
+                                                border-bottom-left-radius: 0.25rem;
+                                                margin-bottom: 1.5rem !important;">
 
-                    </p>
-                    </p>
-                    <p><strong>{{ movie_score }}</strong>/10</p>
-                    <!--</div>-->
+                        <!--<div class="card-body" style="align-items: baseline">-->
+                        <p align="justify">{{actor_bio}}</p>
+                        <!--</div>-->
                 </div>
-
             </div>
         </div>
         <!-- /.row -->
@@ -111,7 +105,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">EDC - Trabalho Prático 1 - Grupo 3</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
         </div>
         <!-- /.container -->
     </footer>

@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 
 from django.shortcuts import render
@@ -10,6 +8,7 @@ import lxml.etree as ET
 import xmltodict
 from BaseXClient import BaseXClient
 import requests
+
 
 def index(request):
     return render(request, 'index.html')
@@ -316,10 +315,11 @@ def apply_filters(request):
     xml_query = xmltodict.unparse(dict, pretty=True)
     xml_parts = xml_query.rpartition("?>")
     xml_query = xml_parts[2].lstrip()
+    order = request.POST["orderby"]
 
     input4 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<movies>{movies:selected_filters(" + xml_query + ")}</movies>"
+             + "';<movies>{movies:selected_filters(" + xml_query + ", <o>" + order + "</o>)}</movies>"
     query4 = session.query(input4)
     xml_result = query4.execute()
     xml_result = xml_parts[0] + xml_parts[1] + "\n\r" + xml_result
@@ -441,52 +441,90 @@ def show_movie(request, movie):
 
     session.execute("open moviesDB")
 
-    input1 = "import module namespace movies = 'com.movies' at '" \
+    input = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<genres>{movies:get_movie_genres(" +"<name>"+ movie + "</name>" + ")}</genres>"
+             + "';<movie>{movies:get_movie(" + "<name>" + movie + "</name>" + ")}</movie>"
 
-    query1 = session.query(input1)
-    genres = query1.execute().replace("<genres>",
-                          "").replace("</genres>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "").replace(" ",
-                          "").replace("</genre>",
-                          "").split("<genre>")
+    query = session.query(input).execute()
+    dict = xmltodict.parse(query)
 
-    input2 = "import module namespace movies = 'com.movies' at '" \
+    # USING QUERY TO GET THE MOVIE CAST
+    input = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<main_actors>{movies:get_movie_main_actors(" +"<name>"+ movie + "</name>" +  ")}</main_actors>"
+             + "';<actors>{movies:get_movie_main_actors(" + "<name>" + movie + "</name>" + ")}</actors>"
 
-    query2 = session.query(input2)
+    movie_main_actors = session.query(input).execute().replace("<actors>",
+                                                      "").replace("</actors>",
+                                                      "").replace("</actor>",
+                                                      "").replace("\n",
+                                                      "").replace("\r",
+                                                      "").split("<actor>")
 
-    main_actors = query2.execute().replace("<main_actors>",
-                          "").replace("</main_actors>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "").replace(" ",
-                          "").replace("</actor>",
-                          "").split("<actor>")
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<actors>{movies:get_movie_secondary_actors(" + "<name>" + movie + "</name>" + ")}</actors>"
 
+    movie_secondary_actors = session.query(input).execute()
 
-    secondary_actors = []
+    if movie_secondary_actors == "<actors/>":
+        movie_secondary_actors = [" "]
+    else:
+        movie_secondary_actors.replace("<actors>",
+                                      "").replace("</actors>",
+                                      "").replace("</actor>",
+                                      "").replace("\n",
+                                      "").replace("\r",
+                                      "").split("<actor>")
 
-    input4 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<director>{movies:get_movie_director_name(" +"<name>"+ movie + "</name>" +  ")}</director>"
+    # USING QUERY TO GET THE MOVIE DIRECTOR
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<director>{movies:get_movie_director_name(" + "<name>" + movie + "</name>" + ")}</director>"
 
-    query4 = session.query(input4)
+    movie_director = session.query(input).execute().replace("<director>",
+                                                  "").replace("</director>",
+                                                  "").replace("\n",
+                                                  "").replace("\r",
+                                                  "")
 
-    director = query4.execute().replace("<director>",
-                          "").replace("</director>",
-                          "").replace("\n",
-                          "").replace("\r",
-                          "")
+    # USING QUERY TO GET THE MOVIE GENRES
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<genres>{movies:get_movie_genres(" + "<name>" + movie + "</name>" + ")}</genres>"
+
+    movie_genres = session.query(input).execute().replace("<genres>",
+                                                "").replace("</genres>",
+                                                "").replace("</genre>",
+                                                "").replace("\n",
+                                                "").replace("\r",
+                                                "").split("<genre>")
+
+    # USING QUERY TO GET THE MOVIE KEYWORDS
+    input = "import module namespace movies = 'com.movies' at '" \
+            + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+            + "';<keywords>{movies:get_movie_plot_keywords(" + "<name>" + movie + "</name>" + ")}</keywords>"
+
+    plot_keywords = session.query(input).execute().replace("<keywords>",
+                                                "").replace("</keywords>",
+                                                "").replace("</keyword>",
+                                                "").replace("\n",
+                                                "").replace("\r",
+                                                "").split("<keyword>")
+
     tparams = {
-        'genres': genres,
-        'main_actors': main_actors,
-        'secondary_actors': secondary_actors,
-        'director': director
+        'movie_name': dict['movie']['movie']['title']['name'],
+        'movie_img': dict['movie']['movie']['poster'],
+        'movie_year': dict['movie']['movie']['title']['year'],
+        'movie_score': dict['movie']['movie']['imbd_info']['score']['#text'],
+        'movie_main_actors': movie_main_actors[1:],
+        'movie_secondary_actors': movie_secondary_actors[1:],
+        'movie_director': movie_director,
+        'movie_genres': movie_genres[1:],
+        'movie_rating': dict['movie']['movie']['@rating'],
+        'movie_language': dict['movie']['movie']['@language'],
+        'movie_country': dict['movie']['movie']['@country'],
+        'movie_duration': dict['movie']['movie']['@duration'],
+        'movie_plot_keywords': plot_keywords[1:]
     }
 
     return render(request, 'movie_page.html', tparams)
@@ -564,3 +602,33 @@ def apply_search(request):
         "years": years
     }
     return render(request,'index.html',tparams)
+
+def actor_profile(request, actor):
+    fn_actor = actor.split("_")[0]
+    print(fn_actor)
+    ln_actor = actor.split("_")[1]
+    print(ln_actor)
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+    session.execute("open peopleDB")
+
+    input_img = "import module namespace people = 'com.people' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
+             + "';<movie>{people:get_img(" + "<name><first_name>" + fn_actor + "</first_name><last_name>"+ln_actor+"</last_name></name>" + ")}</movie>"
+
+    input_bio = "import module namespace people = 'com.people' at '" \
+                + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
+                + "';<movie>{people:get_bio(" + "<name><first_name>" + fn_actor + "</first_name><last_name>"+ln_actor+"</last_name></name>" + ")}</movie>"
+
+    query_img = session.query(input_img).execute()
+    print(query_img)
+    query_bio = session.query(input_bio).execute()
+    print(query_bio)
+
+    tparams = {
+        'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
+        'actor_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
+        'actor_name': fn_actor+" "+ln_actor
+    }
+
+    return render(request, 'actor_profile.html', tparams)

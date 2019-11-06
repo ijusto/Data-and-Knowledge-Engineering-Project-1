@@ -25,19 +25,14 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">MovieDB</a>
+            <a class="navbar-brand" href="/">MovieDB</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="movies">Movies</a>
+                        <a class="nav-link" href="/">Movies</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="news">News</a>
@@ -47,9 +42,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="directors">Directors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
                     </li>
                 </ul>
             </div>
@@ -82,14 +74,16 @@
                             <form action="apply_search" method="post">
                                 {% csrf_token %}
                                 <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                <br/>
                                 <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-secondary" type="button">Go!</button>
+                                    <button type="submit" class="btn btn-secondary" type="button">Search</button>
                                 </span>
                             </form>
                         </div>
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <!-- OrderBy Widget -->
                     <div class="card my-4">
                         <h5 class="card-header">Order By</h5>
@@ -102,6 +96,8 @@
                         </div>
                     </div>
 
+=======
+>>>>>>> f166f4afbfe0c17a1ed968cdde0f9446a535f0c6
                 <!-- Categories Widget -->
                 <div class="card my-4">
                     <h5 class="card-header">Filters</h5>
@@ -123,18 +119,31 @@
                                                 <input type="radio" name="ratings" value={{ r }}> {{ r }}<br>
                                             {% endfor %}
                                         <br/>
-                                        <p><b>Years:</b></p>
-                                        <select name="years">
-                                        <option value=""></option>
-                                        {% for y in years %}
-                                                <option value={{ y }}>{{ y }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <br/>
+                                        <b>Years:</b>
+                                        <p>
+                                            <select name="years">
+                                                <option value=""></option>
+                                                {% for y in years %}
+                                                    <option value={{ y }}>{{ y }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </p>
+                                        <br/>
+                                        <b>Order by:</b>
+                                        <p>
+                                            <select name="orderby">
+                                                <option value=""></option>
+                                                <option value="score">Score</option>
+                                                <option value="title">Title</option>
+                                                <option value="year">Year</option>
+                                            </select>
+                                        </p>
                                     </ul>
                                 </div>
                             </div>
                             <br/>
-                            <p><input type="submit" value="Filter"/></p>
+                            <p align="right"><input type="submit" value="Filter"/></p>
                         </div>
                     </form>
                 </div>

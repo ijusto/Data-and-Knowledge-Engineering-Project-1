@@ -25,6 +25,7 @@ urlpatterns = [
     path('apply_filters', views.apply_filters),
     path('actors', views.actors_list),
     path('movie/<str:movie>/', views.show_movie, name="show_movie"),
+    path('actor/<str:actor>/', views.actor_profile, name="actor_profile"),
     path('newMovies',views.new_movie),
     path('apply_search',views.apply_search),
 ]

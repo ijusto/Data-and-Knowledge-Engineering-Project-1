@@ -115,8 +115,13 @@ declare function movies:get_movies_by_first_letter($letter) as item(){
   }</movies>
 };
 
+declare function movies:get_movie($movie_name) as element()*{
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    return $movie
+};
+
 (: Year of a specific movie :)
-declare function movies:get_movie_year($movie_name as xs:string) as item(){
+declare function movies:get_movie_year($movie_name) as item(){
   let $movie := doc("moviesDB")//movie[title/name=$movie_name]
   return $movie//year
 };
@@ -141,18 +146,33 @@ declare function movies:get_movie_main_actors($movie_name as xs:string) as eleme
       return <actor>{string-join(($actor/first_name/text(), $actor/last_name/text())," ")}</actor>
 };
 
+(: Secondary actors of a specific movie :)
+declare function movies:get_movie_secondary_actors($movie_name) as element()*{
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    return
+    if (exists($movie//secondary_actors)) then
+        for $actor in $movie//secondary_actors//name
+         return <actor>{string-join(($actor/first_name/text(), $actor/last_name/text())," ")}</actor>
+};
+
 (: Score of a specific movie :)
-declare function movies:get_movie_score($movie_name as xs:string) as item(){
+declare function movies:get_movie_score($movie_name) as item(){
   let $movie := doc("moviesDB")//movie[title/name=$movie_name]
   return <score>{$movie//score/text()}</score>
 };
 
 (: Duration of a specific movie :)
-declare function movies:get_movie_duration($movie_name as xs:string) as item(){
+declare function movies:get_movie_duration($movie_name) as item(){
     let $movie := doc("moviesDB")//movie[title/name=$movie_name]
     return <duration>{data($movie/@duration)}</duration>
 };
 
+(: Plot keywords of a specific movie :)
+declare function movies:get_movie_plot_keywords($movie_name) as element()*{
+    let $movie := doc("moviesDB")//movie[title/name=$movie_name]
+    for $key in $movie//keyword
+        return $key
+};
 
 (: SELECT functions :)
 (: Every genre selected :)
@@ -210,6 +230,7 @@ declare function movies:apply_filters($query) as element()*{
                 and matches(data($movie_g//title/name), data($movie_r//title/name))
         return $movie_g
 };
+<<<<<<< HEAD
   :)
   
   declare function movies:apply_filters($query) as element()*{
@@ -227,10 +248,29 @@ declare function movies:apply_filters($query) as element()*{
         return $movie_g
 };
 declare function movies:selected_filters($query) as element()*{
+=======
+
+declare function movies:selected_filters($query, $order) as element()*{
+>>>>>>> f166f4afbfe0c17a1ed968cdde0f9446a535f0c6
     let $filtered := movies:apply_filters($query)
-    for $name in distinct-values($filtered//title/name)
-    let $b := $filtered//title/name[.=$name]
-    return $b[1]/../..
+    return if (data($order)='title') then 
+      for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      order by $b[1]/../..//title/name
+      return $b[1]/../..
+    else if (data($order)='score') then
+      for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      order by $b[1]/../..//imbd_info/score descending
+      return $b[1]/../..
+    else if (data($order)='year') then
+      for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      order by $b[1]/../..//title/year descending
+      return $b[1]/../..
+    else for $name in distinct-values($filtered//title/name)
+      let $b := $filtered//title/name[.=$name]
+      return $b[1]/../..
 };
 
 declare updating function movies:ins_movie($movie){
