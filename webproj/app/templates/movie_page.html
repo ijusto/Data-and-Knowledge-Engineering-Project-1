@@ -36,13 +36,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="movies">Movies</a>
+                        <a class="nav-link" href="/">Movies</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="news">News</a>
+                        <a class="nav-link" href="../../news">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="actors">Actors</a>
+                        <a class="nav-link" href="../../actors">Actors</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
@@ -58,10 +58,6 @@
         <div class="row">
             <!-- Blog Entries Column -->
             <div class="col-md-8 align-items-center">
-                <h1 class="my-4">{{ title_name }}
-                    <!--TODO category selected-->
-                </h1>
-
                 <div class="d-flex flex-row" style="min-width: 0;
                                                 word-wrap: break-word;
                                                 background-color: #fff;
@@ -73,25 +69,36 @@
                                                 margin-bottom: 1.5rem !important;">
                 <div class="p-2">
                     <!--<img class="card-img-top" src="" alt="Card image cap"/>-->
-                    <img src="{{poster}}" alt="Card image cap" class="card-img-top"/>
+                    <img src="{{movie_img}}" alt="Card image cap" class="card-img-top"/>
                 </div>
                 <div class="p-2">
                     <!--<div class="card-body" style="align-items: baseline">-->
-                    <h2><!--class="card-title"-->{{ title_name }}</h2>
+                    <h2><!--class="card-title"-->{{ movie_name }}</h2>
                     <p>
-                        {% for genre in genres %}
+                        {% for genre in movie_genres %}
                             [{{ genre }}]
                         {% endfor %}
-                        ({{ title_year }})
+                        ({{ movie_year }})
                     </p>
-                    <p><strong><i>Director:</i></strong>{{dir_name}}</p>
+                    <p><strong><i>Director:</i></strong>{{movie_director}}</p>
                     <p>
                         <strong><i>Cast: </i></strong>
                             <br/>
                                 <strong>Main actors: </strong>
-                                {% for actor_name in main_actors %}
+                                {% for actor_name in movie_main_actors %}
                                     [{{ actor_name }}]
                                 {% endfor %}
+                            <br/>
+                            <br/>
+                                <strong>Secondary actors: </strong>
+                                {% if movie_secondary_actors|length == 0 %}
+                                    None
+                                {% else %}
+                                    {% for actor_name in movie_secondary_actors %}
+                                    [{{ actor_name }}]
+                                    {% endfor %}
+                                {% endif %}
+
                             <br/>
                     </p>
                     <p><strong>{{ imbd_info_score }}</strong>/10</p>

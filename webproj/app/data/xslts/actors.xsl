@@ -13,12 +13,12 @@
                                                 margin-bottom: 1.5rem !important;">
                 <div class="p-2">
                     <!--<div class="card-body" style="align-items: baseline">-->
-                    <h2><!--class="card-title"-->
-                        <xsl:value-of select="name/first_name"/>
-                        <xsl:value-of select="name/last_name"/>
+                    <h2>
+                        <a>
+                            <xsl:attribute name="href">actor/<xsl:value-of select="name"/>/</xsl:attribute>
+                            <xsl:value-of select="name"/>
+                        </a>
                     </h2>
-                    <p><!-- class="card-text"-->Informação do ator....</p>
-                    <a href="#" class="btn btn-primary">Read More ...</a>
                     <!--</div>-->
                 </div>
             </div>
