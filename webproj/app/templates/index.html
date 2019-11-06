@@ -46,6 +46,9 @@
                         <a class="nav-link" href="actors">Actors</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="directors">Directors</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
                 </ul>
@@ -61,7 +64,7 @@
             <div class="col-md-8">
                 <h1 class="my-4">Movies
                     <!--TODO category selected-->
-                    <small>Recent</small>
+                    <small></small>
                 </h1>
 
                 {{ content | safe }}
@@ -84,13 +87,34 @@
                     <h5 class="card-header">Search</h5>
                     <div class="card-body">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-secondary" type="button">Go!</button>
-                            </span>
+                            <form action="apply_search" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-secondary" type="button">Go!</button>
+                                </span>
+                            </form>
                         </div>
                     </div>
                 </div>
+
+                <!-- OrderBy Widget -->
+                    <div class="card my-4">
+                        <h5 class="card-header">Order By</h5>
+                        <div class="card-body">
+                            <select>
+                                <form action="/" method="post">
+                                    <option value="" type="submit"></option>
+                                </form>
+                                <form action="orderByScore" method="post">
+                                    <option value="score" type="submit">Score</option>
+                                </form>
+                                <form action="orderByTitle" method="post">
+                                    <option value="title" type="submit">Title</option>
+                                </form>
+                            </select>
+                        </div>
+                    </div>
 
                 <!-- Categories Widget -->
                 <div class="card my-4">
@@ -131,9 +155,11 @@
 
                 <!-- Side Widget -->
                 <div class="card my-4">
-                    <h5 class="card-header">Side Widget</h5>
                     <div class="card-body">
-                        You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                        <strong>Do you know a movie we don't? Please help us improve our database.</strong>
+                        <br/>
+                        <br/>
+                        <a href="newMovies" class="btn btn-primary">New movie</a>
                     </div>
                 </div>
             </div>

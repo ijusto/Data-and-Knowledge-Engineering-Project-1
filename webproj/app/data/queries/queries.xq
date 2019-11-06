@@ -236,3 +236,18 @@ declare function local:update_names() as item(){
 :)
 (:movies:selected_filters(<query><genres><genre>Action</genre><genre>Comedy</genre></genres><rating>PG-13</rating><year>2009</year></query>):)
 
+
+declare function movies:searcher($search) as element()*{
+  for $bs in collection('moviesDB')/movies/movie
+  for $p in $bs/plot_keywords/keyword
+  where contains($bs/title/name,$search) or contains($p,$search)
+  return $bs
+};
+
+declare function movies:dist_searcher($search) as element()*{
+  let $s := movies:searcher($search)
+  for $dist_names in distinct-values($s//title/name)
+  let $d := $s//title/name[.=$dist_names]
+  return $d[1]/../..
+};
+
