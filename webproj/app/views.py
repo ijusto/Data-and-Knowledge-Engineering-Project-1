@@ -27,6 +27,9 @@ def new_movie(request):
                     "name":"",
                     "year":""
                 },
+                "imbd_info":{
+                    "score":"?",
+                },
                 "cast": {
                     "main_actors" :{
                         "person" : []
@@ -130,14 +133,7 @@ def new_movie(request):
             query1.execute()
 
             session.close()
-            return render(
-                request,
-                'Auxiliar.html',
-                {
-                    'title': title,
-                    'year' : year,
-                }
-            )
+            return show_movie(request,title)
         else:
             return render(
                 request,
@@ -174,21 +170,33 @@ def movies_news_feed(request):
     return render(request, 'news.html', tparams)
 
 def movies_feed(request):
-    xml_name = 'movies_short.xml'
-    xslt_name = 'movies.xsl'
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
-    xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    session.execute("open moviesDB")
+
+    input0 = "let $c := collection('moviesDB') return $c"
+
+    query0 = session.query(input0)
+
+    xml_result = query0.execute()
+    xml_result = "<?xml version=\"1.0\"?>"+"\n\r" + xml_result
+
+    xslt_name = 'movies.xsl'
     xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
 
-    tree = ET.parse(xml_file)
+    tree = ET.fromstring(bytes(xml_result, "utf-8"))
+
+    #xml_name = 'movies_short.xml'
+    xslt_name = 'movies.xsl'
+
+    #xml_file = os.path.join(BASE_DIR, 'app/data/' + xml_name)
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    #tree = ET.parse(xml_file)
     xslt = ET.parse(xsl_file)
 
     transform = ET.XSLT(xslt)
     newdoc = transform(tree)
-
-    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
-
-    session.execute("open moviesDB")
 
     input1 = "import module namespace movies = 'com.movies' at '"\
              + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -248,7 +256,7 @@ def movies_feed(request):
 def apply_filters(request):
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
-    session.execute("open moviesDB_short")
+    session.execute("open moviesDB")
 
     input1 = "import module namespace movies = 'com.movies' at '" \
              + os.path.join(BASE_DIR,'app/data/queries/queries.xq') \

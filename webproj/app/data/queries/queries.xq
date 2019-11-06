@@ -68,15 +68,13 @@ declare function movies:get_imdb_link($firstname, $lastname) as element()*{
 };
 
 (: Get specific functions :)
-(: Every movie of an actor :)
+(: Every movie of an actor 
 declare function movies:get_movies_by_actor($a_first_name, $a_last_name) as item(){
-  <movies>{
   for $movie in  doc("moviesDB")//movie
     for $actors in $movie//main_actors//person
       where matches(data($actors//first_name), $a_first_name) and matches(data($actors//last_name), $a_last_name)
       return $movie
-  }</movies>
-};
+};:)
 
 (: Every actor of a movie :)
     (:1. No caso de escolhermos não haver atores secundários:)
@@ -198,7 +196,7 @@ declare function movies:selected_year($year) as element()*{
                   return $movie
     }</movies>
 };
-
+(:
 declare function movies:apply_filters($query) as element()*{
 (: <query>  <genres>  <genre></genre>  </genres>    <rating></rating>    <year></year>  </query> :)
         let $movies := doc("moviesDB")
@@ -212,7 +210,22 @@ declare function movies:apply_filters($query) as element()*{
                 and matches(data($movie_g//title/name), data($movie_r//title/name))
         return $movie_g
 };
-
+  :)
+  
+  declare function movies:apply_filters($query) as element()*{
+(: <query>  <genres>  <genre></genre>  </genres>    <rating></rating>    <year></year>  </query> :)
+        let $movies := doc("moviesDB")
+        let $selected_movies_by_year := movies:selected_year($query)
+        let $selected_movies_by_rating := movies:selected_rating($query)
+        let $selected_movies_by_genres := movies:selected_genres($query)
+        for $movie_y in $selected_movies_by_year//movie
+        for $movie_r in $selected_movies_by_rating//movie
+        for $movie_g in $selected_movies_by_genres//movie
+        where matches(data($movie_y//title/name), data($movie_r//title/name))
+                and matches(data($movie_g//title/name), data($movie_r//title/name))
+                and matches(data($movie_y//title/name), data($movie_g//title/name))
+        return $movie_g
+};
 declare function movies:selected_filters($query) as element()*{
     let $filtered := movies:apply_filters($query)
     for $name in distinct-values($filtered//title/name)
@@ -246,17 +259,49 @@ declare function local:update_names() as item(){
 (:movies:selected_filters(<query><genres><genre>Action</genre><genre>Comedy</genre></genres><rating>PG-13</rating><year>2009</year></query>):)
 
 
-declare function movies:searcher($search) as element()*{
-  for $bs in collection('moviesDB')/movies/movie
-  for $p in $bs/plot_keywords/keyword
-  where contains($bs/title/name,$search) or contains($p,$search)
-  return $bs
+declare updating function movies:del_movie($movie){
+  let $movie := doc('moviesDB')//movie[title/name=$movie]
+  return delete node $movie
 };
 
-declare function movies:dist_searcher($search) as element()*{
-  let $s := movies:searcher($search)
+declare function movies:searchActor($search) as element()*{
+  let $people := doc("moviesDB")//person
+  for $person in $people
+  where matches(data($person//profession), "Actor") and contains($person//name,$search)
+  return $person//name
+};
+
+declare function movies:dist_searchActor($search) as element()*{
+  let $s := movies:searchActor($search)
+  for $dist_names in distinct-values($s)
+  let $d := $s[.=$dist_names]
+  return $d[1]
+};
+
+declare function movies:searchDirector($search) as element()*{
+   let $people := doc("moviesDB")//person
+  for $person in $people
+  where matches(data($person//profession), "Movie Director") and contains($person//name,$search)
+  return $person//name
+};
+
+declare function movies:dist_searchDirector($search) as element()*{
+  let $s := movies:searchDirector($search)
+  for $dist_names in distinct-values($s)
+  let $d := $s[.=$dist_names]
+  return $d[1]/..
+};
+
+declare function movies:get_movies_by_actor($a_first_name, $a_last_name) as element()*{
+  for $movie in  doc("moviesDB")//movie
+    for $actors in $movie//main_actors//person
+      where matches(data($actors//first_name), $a_first_name) and matches(data($actors//last_name), $a_last_name)
+      return $movie
+};
+
+declare function movies:dist_get_movies_by_actor($a_first_name, $a_last_name) as element()*{
+  let $s := movies:get_movies_by_actor($a_first_name, $a_last_name)
   for $dist_names in distinct-values($s//title/name)
   let $d := $s//title/name[.=$dist_names]
-  return $d[1]/../..
+  return $d[1]
 };
-
