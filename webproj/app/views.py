@@ -526,13 +526,13 @@ def actor_profile(request, actor):
 
     session.execute("open peopleDB")
 
-    input_img = "import module namespace people = 'com.people'; at '" \
+    input_img = "import module namespace people = 'com.people' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
-             + "';<movie>{movies:get_img(" + "<name>" + actor + "</name>" + ")}</movie>"
+             + "';<movie>{people:get_img(" + "<name>" + actor + "</name>" + ")}</movie>"
 
-    input_bio = "import module namespace people = 'com.people'; at '" \
+    input_bio = "import module namespace people = 'com.people' at '" \
                 + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
-                + "';<movie>{movies:get_bio(" + "<name>" + actor + "</name>" + ")}</movie>"
+                + "';<movie>{people:get_bio(" + "<name>" + actor + "</name>" + ")}</movie>"
 
     query_img = session.query(input_img).execute()
     query_bio = session.query(input_bio).execute()
@@ -543,4 +543,4 @@ def actor_profile(request, actor):
         'actor_name': actor
     }
 
-    return render(request, 'movie_page.html', tparams)
+    return render(request, 'actor_profile.html', tparams)
