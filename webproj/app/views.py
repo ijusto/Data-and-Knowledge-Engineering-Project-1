@@ -428,6 +428,7 @@ def show_movie(request, movie):
                                                 "").replace("</keyword>",
                                                 "").replace("\n",
                                                 "").replace("\r",
+                                                "").replace(" ",
                                                 "").split("<keyword>")
 
     tparams = {
@@ -443,7 +444,8 @@ def show_movie(request, movie):
         'movie_language': dict['movie']['movie']['@language'],
         'movie_country': dict['movie']['movie']['@country'],
         'movie_duration': dict['movie']['movie']['@duration'],
-        'movie_plot_keywords': plot_keywords[1:]
+        'movie_plot_keywords': plot_keywords[1:],
+        'movie_budget': dict['movie']['movie']['@budget']
     }
 
     return render(request, 'movie_page.html', tparams)
