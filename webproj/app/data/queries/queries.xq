@@ -1,5 +1,19 @@
 module namespace movies = "com.movies";
 
+declare function movies:searcher($search) as element()*{
+  for $bs in collection('moviesDB')/movies/movie
+  for $p in $bs/plot_keywords/keyword
+  where contains($bs/title/name,$search) or contains($p,$search)
+  return $bs
+};
+
+declare function movies:dist_searcher($search) as element()*{
+  let $s := movies:searcher($search)
+  for $dist_names in distinct-values($s//title/name)
+  let $d := $s//title/name[.=$dist_names]
+  return $d[1]/../..
+};
+
 (: GET ALL functions :)
 declare function movies:get_all_genres() as element()*{
   let $genres := doc("moviesDB")//genres
