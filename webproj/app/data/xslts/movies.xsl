@@ -30,15 +30,14 @@
                             <xsl:value-of select="title/name"/>
                         </a>
                     </h2>
+                    (<xsl:value-of select="title/year"/>)
                     <p>
                         <xsl:for-each select="genres/genre">
                             [<xsl:value-of select="."/>]
                         </xsl:for-each>
-                        (<xsl:value-of select="title/year"/>)
                     </p>
                     <p><strong><i>Director:</i></strong> <xsl:value-of select="director//name"/></p>
-                    <p>
-                        <strong><i>Cast: </i></strong>
+                    <p><strong><i>Cast: </i></strong>
                             <br/>
                             <xsl:for-each select="cast/main_actors//name">
                             - <xsl:value-of select="."/>
