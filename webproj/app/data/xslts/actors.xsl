@@ -15,7 +15,7 @@
                     <!--<div class="card-body" style="align-items: baseline">-->
                     <h2>
                         <a>
-                            <xsl:attribute name="href">actor/<xsl:value-of select="name"/>/</xsl:attribute>
+                            <xsl:attribute name="href">actor/<xsl:value-of select="name/first_name"/>_<xsl:value-of select="name/last_name"/>/</xsl:attribute>
                             <xsl:value-of select="name"/>
                         </a>
                     </h2>

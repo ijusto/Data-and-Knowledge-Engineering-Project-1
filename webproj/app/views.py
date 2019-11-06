@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 
 from django.shortcuts import render
@@ -10,6 +8,7 @@ import lxml.etree as ET
 import xmltodict
 from BaseXClient import BaseXClient
 import requests
+
 
 def index(request):
     return render(request, 'index.html')
@@ -522,25 +521,31 @@ def apply_search(request):
     return render(request,'index.html',tparams)
 
 def actor_profile(request, actor):
+    fn_actor = actor.split("_")[0]
+    print(fn_actor)
+    ln_actor = actor.split("_")[1]
+    print(ln_actor)
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
     session.execute("open peopleDB")
 
     input_img = "import module namespace people = 'com.people' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
-             + "';<movie>{people:get_img(" + "<name>" + actor + "</name>" + ")}</movie>"
+             + "';<movie>{people:get_img(" + "<name><first_name>" + fn_actor + "</first_name><last_name>"+ln_actor+"</last_name></name>" + ")}</movie>"
 
     input_bio = "import module namespace people = 'com.people' at '" \
                 + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
-                + "';<movie>{people:get_bio(" + "<name>" + actor + "</name>" + ")}</movie>"
+                + "';<movie>{people:get_bio(" + "<name><first_name>" + fn_actor + "</first_name><last_name>"+ln_actor+"</last_name></name>" + ")}</movie>"
 
     query_img = session.query(input_img).execute()
+    print(query_img)
     query_bio = session.query(input_bio).execute()
+    print(query_bio)
 
     tparams = {
-        'actor_img': query_img.replace("<img>","").replace("</img>", ""),
-        'actor_bio': query_bio.replace("<bio.>","").replace("</bio.>", ""),
-        'actor_name': actor
+        'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
+        'actor_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
+        'actor_name': fn_actor+" "+ln_actor
     }
 
     return render(request, 'actor_profile.html', tparams)
