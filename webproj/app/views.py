@@ -440,6 +440,61 @@ def actors_list(request):
 
     return render(request, 'actors.html', tparams)
 
+def apply_searchActor(request):
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+    session.execute("open moviesDB")
+
+    xslt_name = 'actors.xsl'
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    inputSearch = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "';<movie><cast><main_actor><person>{movies:dist_searchActor(<name>" + request.POST['search'] + "</name>)}</person></main_actor></cast></movie>"
+
+    querySearch = session.query(inputSearch)
+    xml_result = querySearch.execute()
+    xml_result = "<?xml version=\"1.0\"?>" + "\n\r" + xml_result
+
+    tree = ET.fromstring(bytes(xml_result, "utf-8"))
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+    }
+
+    return render(request, 'actors.html', tparams)
+
+def apply_searchDirector(request):
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+    session.execute("open moviesDB")
+
+    xslt_name = 'directors.xsl'
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    inputSearch = "import module namespace movies = 'com.movies' at '" \
+                  + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+                  + "';<movie><cast><main_actor><person>{movies:dist_searchDirector(<name>" + request.POST[
+                      'search'] + "</name>)}</person></main_actor></cast></movie>"
+
+    querySearch = session.query(inputSearch)
+    xml_result = querySearch.execute()
+    xml_result = "<?xml version=\"1.0\"?>" + "\n\r" + xml_result
+
+    tree = ET.fromstring(bytes(xml_result, "utf-8"))
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+    }
+
+    return render(request, 'directors.html', tparams)
+
 def directors_list(request):
     xml_name = 'movies.xml'
     xslt_name = 'directors.xsl'
@@ -542,7 +597,7 @@ def show_movie(request, movie):
         score=dict['movie']['movie']['imbd_info']['score']['#text']
     except:
         score=dict['movie']['movie']['imbd_info']['score']
-        score=dict['movie']['movie']['imbd_info']['score']
+    
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
         'movie_img': dict['movie']['movie']['poster'],
@@ -570,6 +625,7 @@ def actor_profile(request, actor):
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
     session.execute("open peopleDB")
+    session.execute("open moviesDB")
 
     input_img = "import module namespace people = 'com.people' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
@@ -587,10 +643,25 @@ def actor_profile(request, actor):
         query_bio = "No bio found."
     print(query_bio)
 
+    inputMovies = "import module namespace movies = 'com.movies' at '" \
+                  + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+                  + "';<movie>{movies:dist_get_movies_by_actor(<first_name>"+fn_actor+"</first_name>, <last_name>"+ln_actor+"</last_name>)}</movie>"
+
+    queryMovies = session.query(inputMovies).execute()
+    listMovie = queryMovies.replace("<movie>","").replace("<name>","").replace("</name>","").replace("</movie>","").replace("\r","").split("\n")
+
+    while ' ' in listMovie:
+        listMovie.remove(' ')
+
+    for i in range(len(listMovie)):
+        listMovie[i] = listMovie[i].strip()
+
+    print(str(listMovie))
     tparams = {
         'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
         'actor_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
-        'actor_name': fn_actor+" "+ln_actor
+        'actor_name': fn_actor+" "+ln_actor,
+        'movies': listMovie
     }
 
     session.close()
@@ -605,6 +676,7 @@ def director_profile(request, director):
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
     session.execute("open peopleDB")
+    session.execute("open moviesDB")
 
     input_img = "import module namespace people = 'com.people' at '" \
              + os.path.join(BASE_DIR, 'app/data/queries/people_queries.xq') \
@@ -615,7 +687,6 @@ def director_profile(request, director):
                 + "';<movie>{people:get_bio(" + "<name><first_name>" + fn_director + "</first_name><last_name>"+ln_director+"</last_name></name>" + ")}</movie>"
 
     query_img = session.query(input_img).execute()
-    print(query_img)
     if query_img == "<movie/>":
         query_img = "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
     query_bio = session.query(input_bio).execute()
@@ -623,15 +694,32 @@ def director_profile(request, director):
         query_bio = "No bio found."
     print(query_bio)
 
+    inputMovies = "import module namespace movies = 'com.movies' at '" \
+                  + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+                  + "';<movie>{movies:dist_get_movies_by_director(<first_name>" + fn_director + "</first_name>, <last_name>" + ln_director + "</last_name>)}</movie>"
+
+    queryMovies = session.query(inputMovies).execute()
+    listMovie = queryMovies.replace("<movie>", "").replace("<name>", "").replace("</name>", "").replace("</movie>",
+                                                                                                        "").replace("\r","").split("\n")
+    while ' ' in listMovie:
+        listMovie.remove(' ')
+
+    for i in range(len(listMovie)):
+        listMovie[i] = listMovie[i].strip()
+
     if len(director.split("_")) >= 2:
         ln_director = director.split("_")[1]
     else:
         ln_director = ""
 
+
+
+
     tparams = {
         'director_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
         'director_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
-        'director_name': fn_director+" "+ln_director
+        'director_name': fn_director+" "+ln_director,
+        'movies':listMovie
     }
 
     session.close()

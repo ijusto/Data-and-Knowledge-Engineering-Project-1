@@ -40,7 +40,7 @@
                         <a class="nav-link" href="../../actors">Actors</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href=".">Directors</a>
+                        <a class="nav-link" href="directors">Directors</a>
                     </li>
                 </ul>
             </div>
@@ -59,6 +59,25 @@
 
                 {{ content | safe }}
 
+            </div>
+
+            <div class="col-md-4">
+                <!-- Search Widget -->
+                <div class="card my-4">
+                    <h5 class="card-header">Search</h5>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <form action="apply_searchDirector" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                <br/>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-secondary" type="button">Search</button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /.row -->

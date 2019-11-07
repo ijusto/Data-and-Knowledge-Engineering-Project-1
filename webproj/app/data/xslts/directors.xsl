@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="/">
-        <xsl:for-each select="//director//person">
+        <!-- <xsl:for-each select="//director/person/name[not(.=//director/person/name/preceding::*)]">-->
+        <xsl:for-each select="//director">
             <div class="d-flex flex-row" style="min-width: 0;
                                                 word-wrap: break-word;
                                                 background-color: #fff;
@@ -16,8 +17,12 @@
                     <h5>
                         &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                         <a>
-                            <xsl:attribute name="href">director/<xsl:value-of select="name/first_name"/>_<xsl:value-of select="name/last_name"/>/</xsl:attribute>
-                            <xsl:value-of select="name"/>
+                            <xsl:attribute name="href">director/<xsl:value-of select="person/name/first_name"/>_<xsl:value-of select="person/name/last_name"/>/</xsl:attribute>
+                            <xsl:value-of select="person/name"/>
+                            <!--
+                            <xsl:attribute name="href">director/<xsl:value-of select="first_name"/>_<xsl:value-of select="last_name"/>/</xsl:attribute>
+                            <xsl:value-of select="."/>
+                            -->
                         </a>
                     </h5>
                 </div>

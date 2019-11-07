@@ -96,6 +96,15 @@
                         <p align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{actor_bio}}</p>
                         <!--</div>-->
                 </div>
+                <p style="padding-left: 15px">
+                        <strong><i>Movies: </i></strong>
+                        {% for movieName in movies %}
+                                <a href="../../movie/{{movieName}}">
+                                    {{movieName}}
+                                </a>
+                            <br/>
+                        {% endfor %}
+                </p>
             </div>
         </div>
         <!-- /.row -->
