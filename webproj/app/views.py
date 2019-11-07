@@ -531,7 +531,6 @@ def show_movie(request, movie):
                                                 "").replace("</keyword>",
                                                 "").replace("\n",
                                                 "").replace("\r",
-                                                "").replace(" ",
                                                 "").split("<keyword>")
 
     try:
