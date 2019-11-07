@@ -21,6 +21,7 @@
                         <xsl:attribute name="alt">"Card image cap"</xsl:attribute>
                         <xsl:attribute name="class">"card-img-top"</xsl:attribute>
                     </img>
+
                 </div>
                 <div class="p-2">
                     <!--<div class="card-body" style="align-items: baseline">-->
