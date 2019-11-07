@@ -79,10 +79,8 @@ declare function movies:get_movies_by_actor($a_first_name, $a_last_name) as item
 (: Every actor of a movie :)
     (:1. No caso de escolhermos não haver atores secundários:)
 declare function movies:get_actors_by_movie($movie_name) as element()*{
-
   let $movie:= doc("moviesDB")//movie[title/name=$movie_name]
   return $movie//main_actors
-
 };
     (:2. No caso de escolhermos haver atores secundários :)
 (:declare function movies:get_actors_by_movie($movie_name as xs:string) as item(){
