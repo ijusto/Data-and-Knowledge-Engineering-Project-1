@@ -6,5 +6,3 @@ webproj/app/migrations/__pycache__/
 webproj/app/migrations/
 
 *.pyc
-
-xml/people.xml
