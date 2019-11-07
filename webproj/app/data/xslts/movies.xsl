@@ -37,7 +37,7 @@
                         </xsl:for-each>
                     </p>
                     <p><strong><i>Director:</i></strong> <a>
-                                                            <xsl:attribute name="href">director/<xsl:value-of select="//director//first_name"/>_<xsl:value-of select="//director//first_name"/>/</xsl:attribute>
+                                                            <xsl:attribute name="href">director/<xsl:value-of select="director//name/first_name"/>_<xsl:value-of select="director//name/last_name"/>/</xsl:attribute>
                                                             <xsl:value-of select="director//name"/>
                     </a></p>
                     <p><strong><i>Cast: </i></strong>
