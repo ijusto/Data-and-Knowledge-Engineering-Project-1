@@ -570,6 +570,8 @@ def show_movie(request, movie):
                                                   "").replace("\r",
                                                   "")
 
+    movie_director = movie_director.strip().replace(" ", "_")
+
     # USING QUERY TO GET THE MOVIE GENRES
     input = "import module namespace movies = 'com.movies' at '" \
             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
