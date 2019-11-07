@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from webproj.settings import BASE_DIR
 import os
@@ -335,6 +335,8 @@ def apply_filters(request):
     transform = ET.XSLT(xslt)
     newdoc = transform(tree)
 
+    session.close()
+
     tparams = {
         'content': newdoc,
         "genres": genres,
@@ -409,6 +411,8 @@ def apply_search(request):
     transform = ET.XSLT(xslt)
     newdoc = transform(tree)
 
+    session.close()
+
     tparams = {
         'content': newdoc,
         "genres": genres,
@@ -457,7 +461,6 @@ def directors_list(request):
 
 # TODO: Not working
 def show_movie(request, movie):
-    print("movie: " + str(type(movie)))
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
     session.execute("open moviesDB")
@@ -468,7 +471,6 @@ def show_movie(request, movie):
 
     query = session.query(input).execute()
     dict = xmltodict.parse(query)
-    print(dict)
 
     # USING QUERY TO GET THE MOVIE CAST
     input = "import module namespace movies = 'com.movies' at '" \
@@ -483,7 +485,6 @@ def show_movie(request, movie):
                                                       "").split("<actor>")
     for i in range(len(movie_main_actors[1:])+1):
         movie_main_actors[i] = movie_main_actors[i].strip().replace(" ","_")
-        print(movie_main_actors[i])
 
     input = "import module namespace movies = 'com.movies' at '" \
             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -542,7 +543,6 @@ def show_movie(request, movie):
     except:
         score=dict['movie']['movie']['imbd_info']['score']
         score=dict['movie']['movie']['imbd_info']['score']
-    print("----"+str(movie_main_actors[1:])+"---")
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
         'movie_img': dict['movie']['movie']['poster'],
@@ -560,81 +560,9 @@ def show_movie(request, movie):
         'movie_budget': dict['movie']['movie']['@budget']
     }
 
+    session.close()
+
     return render(request, 'movie_page.html', tparams)
-
-def apply_search(request):
-    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
-
-    session.execute("open moviesDB")
-
-    input1 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<genres>{movies:get_all_genres()}</genres>"
-    query1 = session.query(input1)
-
-    input2 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<ratings>{movies:get_all_ratings()}</ratings>"
-
-    query2 = session.query(input2)
-
-    input3 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<years>{movies:get_all_years()}</years>"
-
-    query3 = session.query(input3)
-
-    genres = query1.execute().replace("<genres>",
-                                      "").replace("</genres>",
-                                                  "").replace("\n",
-                                                              "").replace("\r",
-                                                                          "").replace(" ",
-                                                                                      "").replace("</genre>",
-                                                                                                  "").split("<genre>")
-    genres.remove('')
-
-    ratings = query2.execute().replace("<ratings>",
-                                       "").replace("</ratings>",
-                                                   "").replace("\n",
-                                                               "").replace("\r",
-                                                                           "").replace(" ",
-                                                                                       "").replace("</rating>",
-                                                                                                   "").split("<rating>")
-    ratings.remove('')
-
-    years = query3.execute().replace("<years>",
-                                     "").replace("</years>",
-                                                 "").replace("\n",
-                                                             "").replace("\r",
-                                                                         "").replace(" ",
-                                                                                     "").replace("</year>",
-                                                                                                 "").split("<year>")
-    years.remove('')
-
-    input4 = "import module namespace movies = 'com.movies' at '" \
-             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-             + "';<movies>{movies:dist_searcher(<s>" + request.POST['search'] + "</s>)}</movies>"
-
-    query4 = session.query(input4)
-    xml_result = query4.execute()
-    xml_result = "<?xml version=\"1.0\"?>"+"\n\r" + xml_result
-
-    xslt_name = 'movies.xsl'
-    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
-
-    tree = ET.fromstring(bytes(xml_result, "utf-8"))
-    xslt = ET.parse(xsl_file)
-
-    transform = ET.XSLT(xslt)
-    newdoc = transform(tree)
-
-    tparams = {
-        'content': newdoc,
-        "genres": genres,
-        "ratings": ratings,
-        "years": years
-    }
-    return render(request,'index.html',tparams)
 
 def actor_profile(request, actor):
     fn_actor = actor.split("_")[0]
@@ -665,6 +593,7 @@ def actor_profile(request, actor):
         'actor_name': fn_actor+" "+ln_actor
     }
 
+    session.close()
     return render(request, 'actor_profile.html', tparams)
 
 def director_profile(request, director):
@@ -705,4 +634,20 @@ def director_profile(request, director):
         'director_name': fn_director+" "+ln_director
     }
 
+    session.close()
+
     return render(request, 'director_profile.html', tparams)
+
+def delete_movie(request, movie):
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+    session.execute("open moviesDB")
+
+    input_del = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "';movies:del_movie(<name>" + movie + "</name>)"
+    session.query(input_del).execute()
+
+    session.close()
+
+    return redirect('/')

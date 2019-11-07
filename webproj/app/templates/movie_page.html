@@ -89,6 +89,7 @@
                                 {% for actor_name in movie_main_actors %}
                                     [<a href="../../actor/{{actor_name}}">{{actor_name}}</a>]
                                 {% endfor %}
+                        <br/>
                         <strong style="padding-left: 20px"><i>Secondary actors: </i></strong>
                                 {% if movie_secondary_actors|length == 0 %}
                                     None
@@ -109,6 +110,11 @@
                         {% endfor %}
                     </p>
                     <p style="padding-left: 15px"><b><i>Score: </i></b><strong>{{ movie_score }}</strong>/10</p>
+
+                    <p align="right"> <button type="submit" class="btn btn-secondary" type="button" onclick="deleteAlert('{{ movie_name }}')">Delete</button></p>
+                    <script>function deleteAlert(movie) {
+                        if (confirm("Are you sure you want to delete the movie \"" + movie + "\" from the database?")) window.location.replace("http://127.0.0.1:8000/delete_movie/"+movie);
+                    }</script>
                     <!--</div>-->
                 </div>
             </div>
