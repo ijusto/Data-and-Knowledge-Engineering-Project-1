@@ -89,6 +89,7 @@
                                 {% for actor_name in movie_main_actors %}
                                     [<a href="../../actor/{{actor_name}}">{{actor_name}}</a>]
                                 {% endfor %}
+                        <br/>
                         <strong style="padding-left: 20px"><i>Secondary actors: </i></strong>
                                 {% if movie_secondary_actors|length == 0 %}
                                     None
