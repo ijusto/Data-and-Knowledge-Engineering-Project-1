@@ -30,7 +30,7 @@ urlpatterns = [
     path('director/<str:director>/', views.director_profile, name="director_profile"),
     path('newMovies', views.new_movie),
     path('apply_search', views.apply_search),
-    path('delete_movie/<str:movie>', views.delete_movie)
+    path('delete_movie/<str:movie>', views.delete_movie),
     path('apply_searchActor', views.apply_searchActor),
-    path('apply_searchDirector', views.apply_searchDirector),
+    path('apply_searchDirector', views.apply_searchDirector)
 ]

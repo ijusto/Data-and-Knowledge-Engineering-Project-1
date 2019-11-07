@@ -641,7 +641,6 @@ def actor_profile(request, actor):
     query_bio = session.query(input_bio).execute()
     if query_bio == "<movie/>":
         query_bio = "No bio found."
-    print(query_bio)
 
     inputMovies = "import module namespace movies = 'com.movies' at '" \
                   + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -656,7 +655,6 @@ def actor_profile(request, actor):
     for i in range(len(listMovie)):
         listMovie[i] = listMovie[i].strip()
 
-    print(str(listMovie))
     tparams = {
         'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
         'actor_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
@@ -692,7 +690,6 @@ def director_profile(request, director):
     query_bio = session.query(input_bio).execute()
     if query_bio == "<movie/>":
         query_bio = "No bio found."
-    print(query_bio)
 
     inputMovies = "import module namespace movies = 'com.movies' at '" \
                   + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -711,9 +708,6 @@ def director_profile(request, director):
         ln_director = director.split("_")[1]
     else:
         ln_director = ""
-
-
-
 
     tparams = {
         'director_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
