@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from webproj.settings import BASE_DIR
 import os
@@ -335,6 +335,8 @@ def apply_filters(request):
     transform = ET.XSLT(xslt)
     newdoc = transform(tree)
 
+    session.close()
+
     tparams = {
         'content': newdoc,
         "genres": genres,
@@ -408,6 +410,8 @@ def apply_search(request):
 
     transform = ET.XSLT(xslt)
     newdoc = transform(tree)
+
+    session.close()
 
     tparams = {
         'content': newdoc,
@@ -512,7 +516,6 @@ def directors_list(request):
 
 # TODO: Not working
 def show_movie(request, movie):
-    print("movie: " + str(type(movie)))
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
     session.execute("open moviesDB")
@@ -523,7 +526,6 @@ def show_movie(request, movie):
 
     query = session.query(input).execute()
     dict = xmltodict.parse(query)
-    print(dict)
 
     # USING QUERY TO GET THE MOVIE CAST
     input = "import module namespace movies = 'com.movies' at '" \
@@ -538,7 +540,6 @@ def show_movie(request, movie):
                                                       "").split("<actor>")
     for i in range(len(movie_main_actors[1:])+1):
         movie_main_actors[i] = movie_main_actors[i].strip().replace(" ","_")
-        print(movie_main_actors[i])
 
     input = "import module namespace movies = 'com.movies' at '" \
             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -596,8 +597,7 @@ def show_movie(request, movie):
         score=dict['movie']['movie']['imbd_info']['score']['#text']
     except:
         score=dict['movie']['movie']['imbd_info']['score']
-
-    print("----"+str(movie_main_actors[1:])+"---")
+    
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
         'movie_img': dict['movie']['movie']['poster'],
@@ -615,8 +615,14 @@ def show_movie(request, movie):
         'movie_budget': dict['movie']['movie']['@budget']
     }
 
+<<<<<<< HEAD
     return render(request, 'movie_page.html', tparams)
 
+=======
+    session.close()
+
+    return render(request, 'movie_page.html', tparams)
+>>>>>>> 11cbace8f98144e40b4a09cf0080fbdbea52ca6b
 
 def actor_profile(request, actor):
     fn_actor = actor.split("_")[0]
@@ -640,16 +646,19 @@ def actor_profile(request, actor):
     query_bio = session.query(input_bio).execute()
     if query_bio == "<movie/>":
         query_bio = "No bio found."
-    print(query_bio)
 
     inputMovies = "import module namespace movies = 'com.movies' at '" \
                   + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
                   + "';<movie>{movies:dist_get_movies_by_actor(<first_name>"+fn_actor+"</first_name>, <last_name>"+ln_actor+"</last_name>)}</movie>"
 
     queryMovies = session.query(inputMovies).execute()
-    listMovie = queryMovies.replace("<movie>","").replace("<name>","").replace("</name>","").replace("</movie>","").split("\r\n")
-    while '' in listMovie:
-        listMovie.remove('')
+    listMovie = queryMovies.replace("<movie>","").replace("<name>","").replace("</name>","").replace("</movie>","").replace("\r","").split("\n")
+
+    while ' ' in listMovie:
+        listMovie.remove(' ')
+
+    for i in range(len(listMovie)):
+        listMovie[i] = listMovie[i].strip()
 
     tparams = {
         'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
@@ -658,6 +667,7 @@ def actor_profile(request, actor):
         'movies': listMovie
     }
 
+    session.close()
     return render(request, 'actor_profile.html', tparams)
 
 def director_profile(request, director):
@@ -685,7 +695,6 @@ def director_profile(request, director):
     query_bio = session.query(input_bio).execute()
     if query_bio == "<movie/>":
         query_bio = "No bio found."
-    print(query_bio)
 
     inputMovies = "import module namespace movies = 'com.movies' at '" \
                   + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -693,19 +702,17 @@ def director_profile(request, director):
 
     queryMovies = session.query(inputMovies).execute()
     listMovie = queryMovies.replace("<movie>", "").replace("<name>", "").replace("</name>", "").replace("</movie>",
-                                                                                                        "").split(
-        "\r\n")
-    while '' in listMovie:
-        listMovie.remove('')
+                                                                                                        "").replace("\r","").split("\n")
+    while ' ' in listMovie:
+        listMovie.remove(' ')
 
+    for i in range(len(listMovie)):
+        listMovie[i] = listMovie[i].strip()
 
     if len(director.split("_")) >= 2:
         ln_director = director.split("_")[1]
     else:
         ln_director = ""
-
-
-
 
     tparams = {
         'director_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
@@ -714,4 +721,20 @@ def director_profile(request, director):
         'movies':listMovie
     }
 
+    session.close()
+
     return render(request, 'director_profile.html', tparams)
+
+def delete_movie(request, movie):
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+    session.execute("open moviesDB")
+
+    input_del = "import module namespace movies = 'com.movies' at '" \
+             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+             + "';movies:del_movie(<name>" + movie + "</name>)"
+    session.query(input_del).execute()
+
+    session.close()
+
+    return redirect('/')

@@ -28,8 +28,9 @@ urlpatterns = [
     path('movie/<str:movie>/', views.show_movie, name="show_movie"),
     path('actor/<str:actor>/', views.actor_profile, name="actor_profile"),
     path('director/<str:director>/', views.director_profile, name="director_profile"),
-    path('newMovies',views.new_movie),
-    path('apply_search',views.apply_search),
+    path('newMovies', views.new_movie),
+    path('apply_search', views.apply_search),
+    path('delete_movie/<str:movie>', views.delete_movie),
     path('apply_searchActor', views.apply_searchActor),
-    path('apply_searchDirector', views.apply_searchDirector),
+    path('apply_searchDirector', views.apply_searchDirector)
 ]
