@@ -476,8 +476,8 @@ def apply_searchDirector(request):
 
     inputSearch = "import module namespace movies = 'com.movies' at '" \
                   + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
-                  + "';<movie><cast><main_actor><person>{movies:dist_searchDirector(<name>" + request.POST[
-                      'search'] + "</name>)}</person></main_actor></cast></movie>"
+                  + "';<director>{movies:dist_searchDirector(<name>" + request.POST[
+                      'search'] + "</name>)}</director>"
 
     querySearch = session.query(inputSearch)
     xml_result = querySearch.execute()
@@ -570,6 +570,8 @@ def show_movie(request, movie):
                                                   "").replace("\r",
                                                   "")
 
+    movie_director = movie_director.strip().replace(" ","_")
+
     # USING QUERY TO GET THE MOVIE GENRES
     input = "import module namespace movies = 'com.movies' at '" \
             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -615,14 +617,9 @@ def show_movie(request, movie):
         'movie_budget': dict['movie']['movie']['@budget']
     }
 
-<<<<<<< HEAD
-    return render(request, 'movie_page.html', tparams)
-
-=======
     session.close()
 
     return render(request, 'movie_page.html', tparams)
->>>>>>> 11cbace8f98144e40b4a09cf0080fbdbea52ca6b
 
 def actor_profile(request, actor):
     fn_actor = actor.split("_")[0]

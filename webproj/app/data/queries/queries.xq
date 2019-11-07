@@ -332,7 +332,7 @@ declare function movies:dist_searchDirector($search) as element()*{
   let $s := movies:searchDirector($search)
   for $dist_names in distinct-values($s)
   let $d := $s[.=$dist_names]
-  return $d[1]/..
+  return $d[1]/../..
 };
 
 declare function movies:get_movies_by_actor($a_first_name, $a_last_name) as element()*{
