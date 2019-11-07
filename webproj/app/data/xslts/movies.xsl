@@ -36,11 +36,17 @@
                             [<xsl:value-of select="."/>]
                         </xsl:for-each>
                     </p>
-                    <p><strong><i>Director:</i></strong> <xsl:value-of select="director//name"/></p>
+                    <p><strong><i>Director:</i></strong> <a>
+                                                            <xsl:attribute name="href">director/<xsl:value-of select="//director//first_name"/>_<xsl:value-of select="//director//first_name"/>/</xsl:attribute>
+                                                            <xsl:value-of select="director//name"/>
+                    </a></p>
                     <p><strong><i>Cast: </i></strong>
                             <br/>
                             <xsl:for-each select="cast/main_actors//name">
-                            - <xsl:value-of select="."/>
+                            - <a>
+                                <xsl:attribute name="href">actor/<xsl:value-of select="first_name"/>_<xsl:value-of select="last_name"/>/</xsl:attribute>
+                                <xsl:value-of select="."/>
+                              </a>
                             <br/>
                         </xsl:for-each>
                     </p>

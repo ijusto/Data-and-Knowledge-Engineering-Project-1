@@ -80,21 +80,21 @@
                             [{{ genre }}]
                         {% endfor %}
                     </p>
-                    <p style="padding-left: 15px"><strong><i>Director: </i></strong>{{movie_director}}</p>
+                    <p style="padding-left: 15px"><strong><i>Director: </i></strong><a href="../../director/{{movie_director}}">{{movie_director}}</a></p>
+
                     <p style="padding-left: 15px">
                         <strong><i>Cast: </i></strong>
                             <br/>
                         <strong style="padding-left: 20px"><i>Main actors: </i></strong>
                                 {% for actor_name in movie_main_actors %}
-                                    [{{ actor_name }}]
+                                    [<a href="../../actor/{{actor_name}}">{{actor_name}}</a>]
                                 {% endfor %}
-                            <br/>
                         <strong style="padding-left: 20px"><i>Secondary actors: </i></strong>
                                 {% if movie_secondary_actors|length == 0 %}
                                     None
                                 {% else %}
                                     {% for actor_name in movie_secondary_actors %}
-                                    [{{ actor_name }}]
+                                        [<a href="../../actor/{{actor_name}}">{{actor_name}}</a>]
                                     {% endfor %}
                                 {% endif %}
                             <br/>
