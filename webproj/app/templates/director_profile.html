@@ -100,7 +100,7 @@
                         <strong><i>Movies: </i></strong>
                         <br/>
                         {% for movieName in movies %}
-                            [{{ movieName }}]
+                            <a href="../../movie/{{movieName}}">{{movieName}}</a>
                             <br/>
                         {% endfor %}
                 </p>

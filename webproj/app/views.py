@@ -695,10 +695,15 @@ def actor_profile(request, actor):
                   + "';<movie>{movies:dist_get_movies_by_actor(<first_name>"+fn_actor+"</first_name>, <last_name>"+ln_actor+"</last_name>)}</movie>"
 
     queryMovies = session.query(inputMovies).execute()
-    listMovie = queryMovies.replace("<movie>","").replace("<name>","").replace("</name>","").replace("</movie>","").split("\r\n")
-    listMovie.remove('')
-    listMovie.remove('')
+    listMovie = queryMovies.replace("<movie>","").replace("<name>","").replace("</name>","").replace("</movie>","").replace("\r","").split("\n")
 
+    while ' ' in listMovie:
+        listMovie.remove(' ')
+
+    for i in range(len(listMovie)):
+        listMovie[i] = listMovie[i].strip()
+
+    print(str(listMovie))
     tparams = {
         'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
         'actor_bio': query_bio.replace("<bio>","").replace("</bio>", "").replace("<movie>","").replace("</movie>",""),
@@ -741,11 +746,12 @@ def director_profile(request, director):
 
     queryMovies = session.query(inputMovies).execute()
     listMovie = queryMovies.replace("<movie>", "").replace("<name>", "").replace("</name>", "").replace("</movie>",
-                                                                                                        "").split(
-        "\r\n")
-    listMovie.remove('')
-    listMovie.remove('')
+                                                                                                        "").replace("\r","").split("\n")
+    while ' ' in listMovie:
+        listMovie.remove(' ')
 
+    for i in range(len(listMovie)+1):
+        listMovie[i] = listMovie[i].strip()
 
     if len(director.split("_")) >= 2:
         ln_director = director.split("_")[1]
