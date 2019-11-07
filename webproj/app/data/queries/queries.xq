@@ -3,7 +3,7 @@ module namespace movies = "com.movies";
 declare function movies:searcher($search) as element()*{
   for $bs in collection('moviesDB')/movies/movie
   for $p in $bs/plot_keywords/keyword
-  where contains($bs/title/name,$search) or contains($p,$search)
+  where contains(lower-case($bs/title/name),lower-case($search)) or contains(lower-case($p),lower-case($search))
   return $bs
 };
 
@@ -104,6 +104,13 @@ declare function movies:get_movies_by_director($dir_first_name as xs:string, $di
       where $movie//director//first_name=$dir_first_name and $movie//director//last_name=$dir_last_name
       return $movie
   }</movies>
+};
+
+declare function movies:dist_get_movies_by_director($a_first_name, $a_last_name) as element()*{
+  let $s := movies:get_movies_by_director($a_first_name, $a_last_name)
+  for $dist_names in distinct-values($s//title/name)
+  let $d := $s//title/name[.=$dist_names]
+  return $d[1]
 };
 
 (: Every movie that starts with a letter :)
@@ -303,7 +310,7 @@ declare updating function movies:del_movie($movie){
 declare function movies:searchActor($search) as element()*{
   let $people := doc("moviesDB")//person
   for $person in $people
-  where matches(data($person//profession), "Actor") and contains($person//name,$search)
+  where matches(data($person//profession), "Actor") and contains(lower-case($person//name),lower-case($search))
   return $person//name
 };
 
@@ -311,13 +318,13 @@ declare function movies:dist_searchActor($search) as element()*{
   let $s := movies:searchActor($search)
   for $dist_names in distinct-values($s)
   let $d := $s[.=$dist_names]
-  return $d[1]
+  return $d[1]/..
 };
 
 declare function movies:searchDirector($search) as element()*{
    let $people := doc("moviesDB")//person
   for $person in $people
-  where matches(data($person//profession), "Movie Director") and contains($person//name,$search)
+  where matches(data($person//profession), "Movie Director") and contains(lower-case($person//name),lower-case($search))
   return $person//name
 };
 
