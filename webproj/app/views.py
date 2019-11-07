@@ -464,7 +464,32 @@ def apply_searchActor(request):
     return render(request, 'actors.html', tparams)
 
 def apply_searchDirector(request):
-    pass
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+    session.execute("open moviesDB")
+
+    xslt_name = 'directors.xsl'
+    xsl_file = os.path.join(BASE_DIR, 'app/data/xslts/' + xslt_name)
+
+    inputSearch = "import module namespace movies = 'com.movies' at '" \
+                  + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
+                  + "';<movie><cast><main_actor><person>{movies:dist_searchDirector(<name>" + request.POST[
+                      'search'] + "</name>)}</person></main_actor></cast></movie>"
+
+    querySearch = session.query(inputSearch)
+    xml_result = querySearch.execute()
+    xml_result = "<?xml version=\"1.0\"?>" + "\n\r" + xml_result
+
+    tree = ET.fromstring(bytes(xml_result, "utf-8"))
+    xslt = ET.parse(xsl_file)
+
+    transform = ET.XSLT(xslt)
+    newdoc = transform(tree)
+
+    tparams = {
+        'content': newdoc,
+    }
+
+    return render(request, 'directors.html', tparams)
 
 def directors_list(request):
     xml_name = 'movies.xml'
@@ -571,7 +596,7 @@ def show_movie(request, movie):
         score=dict['movie']['movie']['imbd_info']['score']['#text']
     except:
         score=dict['movie']['movie']['imbd_info']['score']
-        score=dict['movie']['movie']['imbd_info']['score']
+
     print("----"+str(movie_main_actors[1:])+"---")
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
@@ -696,8 +721,8 @@ def actor_profile(request, actor):
 
     queryMovies = session.query(inputMovies).execute()
     listMovie = queryMovies.replace("<movie>","").replace("<name>","").replace("</name>","").replace("</movie>","").split("\r\n")
-    listMovie.remove('')
-    listMovie.remove('')
+    while '' in listMovie:
+        listMovie.remove('')
 
     tparams = {
         'actor_img': query_img.replace("<img>","").replace("</img>", "").replace("<movie>","").replace("</movie>",""),
@@ -743,8 +768,8 @@ def director_profile(request, director):
     listMovie = queryMovies.replace("<movie>", "").replace("<name>", "").replace("</name>", "").replace("</movie>",
                                                                                                         "").split(
         "\r\n")
-    listMovie.remove('')
-    listMovie.remove('')
+    while '' in listMovie:
+        listMovie.remove('')
 
 
     if len(director.split("_")) >= 2:
