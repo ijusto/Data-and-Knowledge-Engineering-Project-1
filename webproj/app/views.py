@@ -775,7 +775,7 @@ def director_profile(request, director):
     while ' ' in listMovie:
         listMovie.remove(' ')
 
-    for i in range(len(listMovie)+1):
+    for i in range(len(listMovie)):
         listMovie[i] = listMovie[i].strip()
 
     if len(director.split("_")) >= 2:
