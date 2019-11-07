@@ -47,10 +47,15 @@
         </div>
     </nav>
 
+
+
     <!-- Page Content -->
     <div class="container">
 
         <div class="row">
+
+
+
             <!-- Blog Entries Column -->
             <div class="col-md-8 align-items-center">
                 <h1 class="my-4">Actors
@@ -60,6 +65,24 @@
                 {{ content | safe }}
 
             </div>
+
+            <div class="col-md-4">
+                <!-- Search Widget -->
+                <div class="card my-4">
+                    <h5 class="card-header">Search</h5>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <form action="apply_searchActor" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="search" class="form-control" placeholder="Search for...">
+                                <br/>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-secondary" type="button">Search</button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
         </div>
         <!-- /.row -->
     </div>
@@ -68,7 +91,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+            <p class="m-0 text-center text-white">EDC - Trabalho Prático 1 - Grupo 3</p>
         </div>
         <!-- /.container -->
     </footer>
