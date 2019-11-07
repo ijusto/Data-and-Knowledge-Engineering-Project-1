@@ -511,6 +511,9 @@ def show_movie(request, movie):
                                                       "").replace("\n",
                                                       "").replace("\r",
                                                       "").split("<actor>")
+    for i in range(len(movie_main_actors[1:])+1):
+        movie_main_actors[i] = movie_main_actors[i].strip().replace(" ","_")
+        print(movie_main_actors[i])
 
     input = "import module namespace movies = 'com.movies' at '" \
             + os.path.join(BASE_DIR, 'app/data/queries/queries.xq') \
@@ -527,6 +530,8 @@ def show_movie(request, movie):
                                       "").replace("\n",
                                       "").replace("\r",
                                       "").split("<actor>")
+        for i in range(len(movie_main_actors[1:]) + 1):
+            movie_secondary_actors[i] = movie_secondary_actors[i].strip().replace(" ", "_")
 
     # USING QUERY TO GET THE MOVIE DIRECTOR
     input = "import module namespace movies = 'com.movies' at '" \
@@ -561,16 +566,13 @@ def show_movie(request, movie):
                                                 "").replace("</keyword>",
                                                 "").replace("\n",
                                                 "").replace("\r",
-                                                "").replace(" ",
                                                 "").split("<keyword>")
-
     try:
         score=dict['movie']['movie']['imbd_info']['score']['#text']
     except:
         score=dict['movie']['movie']['imbd_info']['score']
         score=dict['movie']['movie']['imbd_info']['score']
-
-
+    print("----"+str(movie_main_actors[1:])+"---")
     tparams = {
         'movie_name': dict['movie']['movie']['title']['name'],
         'movie_img': dict['movie']['movie']['poster'],

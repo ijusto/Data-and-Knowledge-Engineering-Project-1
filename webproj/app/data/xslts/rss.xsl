@@ -29,7 +29,7 @@
             </h2><br/>
             <!--<xsl:value-of select="description"/>-->
             <div class="card-footer text-muted">
-                <xsl:value-of select="pubDate"/>
+                <xsl:value-of select="pubDate"/><br/>
                 <a href="https://www.cinemablend.com">CinemaBlend Latest Content</a>
             </div>
         </div>
